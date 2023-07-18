@@ -10,7 +10,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import React from "react";
-import PageImageCover from "../PageImageCover";
+import PageImageCover from "../../components/PageImageCover";
 
 function index() {
     return (

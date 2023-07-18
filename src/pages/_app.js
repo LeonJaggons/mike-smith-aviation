@@ -1,15 +1,38 @@
 import Providers from "@/components/Providers";
 import "@/styles/globals.css";
-import { NavBar } from "./NavBar";
+import { NavBar } from "../components/NavBar";
 import { Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { SizeMe } from "react-sizeme";
-import PageImageCover from "./PageImageCover";
+import PageImageCover from "../components/PageImageCover";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase/firebase_init";
+import store from "@/redux/store";
+import { getUserByID } from "@/firebase/firestore_helpers";
 
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
     const router = useRouter();
+    useEffect(() => {
+        const unsub = onAuthStateChanged(auth, (user) => {
+            getUserByID(user.uid).then((dbUser) => {
+                store.dispatch({
+                    type: "SET",
+                    attr: "user",
+                    payload: user
+                        ? { userID: user.uid, ...user, ...dbUser }
+                        : null,
+                });
+                store.dispatch({
+                    type: "SET",
+                    attr: "isSignedIn",
+                    payload: user !== null && user !== undefined,
+                });
+            });
+        });
+        return unsub();
+    }, []);
     const covers = {
         "/contact": {
             src: "/contact.jpg",
