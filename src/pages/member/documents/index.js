@@ -731,6 +731,15 @@ const DetailButton = ({ doc }) => {
                                     }
                                 />
                             )}
+                            {console.log(doc)}
+                            {doc && (
+                                <DetailLine
+                                    label={"Created at"}
+                                    value={moment(doc.createdDate).format(
+                                        "MMMM D, YYYY [at] h:mma"
+                                    )}
+                                />
+                            )}
                             <DetailLine
                                 label={"Document name"}
                                 value={doc.fileName}
