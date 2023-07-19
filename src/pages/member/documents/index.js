@@ -441,8 +441,10 @@ const DocUpload = ({ setRawFile, setFileType }) => {
                 borderStyle={"dashed"}
                 borderWidth={2}
                 color={"gray.800"}
+                bg={"gray.50"}
+                fontWeight={500}
             >
-                Upload File...
+                Click to upload file...
             </Button>
             <Input
                 onChange={handleFileSelected}

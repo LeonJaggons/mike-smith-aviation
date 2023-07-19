@@ -57,7 +57,7 @@ const AddNewUserButton = () => {
 
 const AddNewUserModal = ({ isOpen, onClose }) => {
     return (
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered>
             <ModalOverlay />
             <ModalContent borderRadius={0}>
                 <ModalBody p={6}>
