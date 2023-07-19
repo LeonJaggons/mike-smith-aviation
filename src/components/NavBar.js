@@ -98,7 +98,8 @@ export const NavBar = () => {
         windowSize.current = [window.innerWidth, window.innerHeight];
         // if (router.pathname !== "/") setBg("white");
         // else setBg("rgba(0,0,0,0)");
-    }, [router]);
+    }, [router.pathname]);
+
     return (
         <HStack
             as={motion.div}
