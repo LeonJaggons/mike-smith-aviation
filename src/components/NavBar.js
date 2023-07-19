@@ -25,6 +25,8 @@ import {
     Checkbox,
     ModalCloseButton,
     useToast,
+    Avatar,
+    Tag,
 } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
 import {
@@ -47,6 +49,7 @@ import {
     FaSignInAlt,
     FaSignOutAlt,
 } from "react-icons/fa";
+import { MdLogin, MdLogout } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 function getWindowDimensions() {
@@ -113,8 +116,7 @@ export const NavBar = () => {
         >
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
             <VStack align={"end"} spacing={4} flex={1}>
-                <HStack mr={-3}>
-                    <SignInButton fontColor={fontColor} />
+                <HStack spacing={"0px"}>
                     <IconButton
                         color={fontColor}
                         variant={"link"}
@@ -137,10 +139,30 @@ export const NavBar = () => {
                         color={fontColor}
                         variant={"link"}
                         icon={<Icon as={FaEnvelope} />}
-                        onClick={() =>
-                            window.open("mailto:mikesmith@gmail.com")
-                        }
+                        as={Link}
+                        href={"/contact"}
                     />
+                    <SignInButton fontColor={fontColor} />
+                    {isSignedIn && user.adminRole >= 4 ? (
+                        <Tag colorScheme={"gray"} fontWeight={700}>
+                            Admin
+                        </Tag>
+                    ) : (
+                        isSignedIn && (
+                            <Tag colorScheme={"blue"} fontWeight={700}>
+                                Member
+                            </Tag>
+                        )
+                    )}
+                    {isSignedIn && (
+                        <Avatar
+                            ml={2}
+                            size={"xs"}
+                            name={user.firstName + " " + user.lastName}
+                            mr={0}
+                            fontWeight={"bold"}
+                        ></Avatar>
+                    )}
                 </HStack>
                 <HStack spacing={8} flex={1}>
                     {!isSignedIn && (
@@ -249,9 +271,9 @@ const SignInButton = ({ fontColor }) => {
             color={fontColor}
             onClick={isSignedIn ? handleSignOut : onOpen}
         >
-            <HStack mr={1}>
-                <Icon as={isSignedIn ? FaSignOutAlt : FaSignInAlt} />
-                <Text>Sign {isSignedIn ? "out" : "in"}</Text>
+            <HStack>
+                <Icon as={isSignedIn ? MdLogout : MdLogin} />
+                {/* <Text>Sign {isSignedIn ? "out" : "in"}</Text> */}
             </HStack>
             <SignInModal isOpen={isOpen} onClose={onClose} />
         </NavItem>
