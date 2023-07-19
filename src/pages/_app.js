@@ -16,22 +16,35 @@ export default function App({ Component, pageProps }) {
     const router = useRouter();
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
-            getUserByID(user.uid).then((dbUser) => {
+            console.log(user);
+            if (user) {
+                getUserByID(user.uid).then((dbUser) => {
+                    store.dispatch({
+                        type: "SET",
+                        attr: "user",
+                        payload: { userID: user.uid, ...user, ...dbUser },
+                    });
+                    store.dispatch({
+                        type: "SET",
+                        attr: "isSignedIn",
+                        payload: true,
+                    });
+                });
+            } else {
                 store.dispatch({
                     type: "SET",
                     attr: "user",
-                    payload: user
-                        ? { userID: user.uid, ...user, ...dbUser }
-                        : null,
+                    payload: null,
                 });
                 store.dispatch({
                     type: "SET",
                     attr: "isSignedIn",
-                    payload: user !== null && user !== undefined,
+                    payload: false,
                 });
-            });
+                router.push("/");
+            }
         });
-        return unsub();
+        return unsub;
     }, []);
     const covers = {
         "/contact": {

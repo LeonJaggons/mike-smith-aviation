@@ -49,6 +49,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { FaFileUpload, FaHistory, FaPlus, FaUpload } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {
+    MdAdd,
     MdClose,
     MdDelete,
     MdDownload,
@@ -159,7 +160,7 @@ const AddNewDocButton = () => {
                     colorScheme={"black"}
                     size={"sm"}
                     variant={"ghost"}
-                    leftIcon={<Icon as={FaPlus} />}
+                    leftIcon={<Icon as={MdAdd} />}
                     borderRadius={0}
                 >
                     Add New Document
@@ -439,7 +440,7 @@ const DocUpload = ({ setRawFile, setFileType }) => {
                 leftIcon={<Icon as={FaFileUpload} />}
                 borderStyle={"dashed"}
                 borderWidth={2}
-                color={"gray.600"}
+                color={"gray.800"}
             >
                 Upload File...
             </Button>

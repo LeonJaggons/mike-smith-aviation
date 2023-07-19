@@ -1,4 +1,5 @@
 import { signInUser } from "@/firebase/auth_helpers";
+import { auth } from "@/firebase/firebase_init";
 import {
     Box,
     Button,
@@ -25,6 +26,7 @@ import {
     ModalCloseButton,
     useToast,
 } from "@chakra-ui/react";
+import { signOut } from "firebase/auth";
 import {
     motion,
     useMotionValue,
@@ -43,6 +45,7 @@ import {
     FaInstagram,
     FaMailBulk,
     FaSignInAlt,
+    FaSignOutAlt,
 } from "react-icons/fa";
 import { useSelector } from "react-redux";
 
@@ -111,7 +114,7 @@ export const NavBar = () => {
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
             <VStack align={"end"} spacing={4} flex={1}>
                 <HStack mr={-3}>
-                    {!isSignedIn && <SignInButton fontColor={fontColor} />}
+                    <SignInButton fontColor={fontColor} />
                     <IconButton
                         color={fontColor}
                         variant={"link"}
@@ -208,9 +211,20 @@ export const NavBar = () => {
                         </>
                     )}
                     {isSignedIn && (
-                        <NavItem color={fontColor} href={"/member/documents"}>
-                            Documents
-                        </NavItem>
+                        <>
+                            <NavItem
+                                color={fontColor}
+                                href={"/member/appointments"}
+                            >
+                                Appointments
+                            </NavItem>
+                            <NavItem
+                                color={fontColor}
+                                href={"/member/documents"}
+                            >
+                                Documents
+                            </NavItem>
+                        </>
                     )}
                     {isSignedIn && user.adminRole >= 4 && (
                         <NavItem color={fontColor} href={"/member/users"}>
@@ -225,12 +239,19 @@ export const NavBar = () => {
 };
 
 const SignInButton = ({ fontColor }) => {
+    const isSignedIn = useSelector((state) => state.app.isSignedIn);
     const { isOpen, onOpen, onClose } = useDisclosure();
+    const handleSignOut = async () => {
+        await signOut(auth);
+    };
     return (
-        <NavItem color={fontColor} onClick={onOpen}>
-            <HStack>
-                <Icon as={FaSignInAlt} />
-                <Text>Sign in</Text>
+        <NavItem
+            color={fontColor}
+            onClick={isSignedIn ? handleSignOut : onOpen}
+        >
+            <HStack mr={1}>
+                <Icon as={isSignedIn ? FaSignOutAlt : FaSignInAlt} />
+                <Text>Sign {isSignedIn ? "out" : "in"}</Text>
             </HStack>
             <SignInModal isOpen={isOpen} onClose={onClose} />
         </NavItem>
