@@ -14,7 +14,7 @@ import React from "react";
 function index() {
     return (
         <Box>
-            <SimpleGrid columns={2} spacing={2}>
+            <SimpleGrid columns={[1, 1, 2, 2]} spacing={2}>
                 <AircraftCard aircraft={"c172s"} />
                 <AircraftCard aircraft={"c162"} />
                 <AircraftCard aircraft={"c150"} />

@@ -12,6 +12,7 @@ import {
     Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 function index() {
     const [photos, setPhotos] = useState(null);
@@ -33,6 +34,7 @@ function index() {
 
 const PhotoGallery = ({ photos }) => {
     const [img, setImg] = useState(null);
+    const isMobile = useSelector((state) => state.app.isMobile);
     const { isOpen, onOpen, onClose } = useDisclosure();
     const openModal = (src) => {
         setImg(src);
@@ -41,7 +43,7 @@ const PhotoGallery = ({ photos }) => {
     return (
         <>
             <LightBoxModal isOpen={isOpen} onClose={onClose} img={img} />
-            <SimpleGrid columns={[2, 3, 4, 4]} spacing={2}>
+            <SimpleGrid columns={isMobile ? 3 : [2, 3, 4, 4]} spacing={2}>
                 {photos.map((p, i) => (
                     <GalleryImage key={p} openModal={openModal} src={p} />
                 ))}
@@ -72,6 +74,7 @@ const LightBoxModal = ({ isOpen, onClose, img }) => {
 };
 
 const GalleryImage = ({ src, openModal, index }) => {
+    const isMobile = useSelector((state) => state.app.isMobile);
     const [loading, setLoading] = useState(true);
     const openImage = () => {
         openModal(src);
@@ -80,9 +83,10 @@ const GalleryImage = ({ src, openModal, index }) => {
         <Image
             onLoad={() => setLoading(false)}
             onMouseDown={openImage}
+            aspectRatio={isMobile && 1}
             borderRadius={3}
             src={src}
-            h={"220px"}
+            h={isMobile ? "full" : "220px"}
             w={"full"}
             objectFit={"cover"}
             cursor={"pointer"}
