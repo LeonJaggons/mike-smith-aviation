@@ -21,7 +21,13 @@ function PageImageCover({ src, title, sub }) {
                 spacing={4}
                 w={"full"}
             >
-                <Heading size={"4xl"} color={"white"} mb={6}>
+                <Heading
+                    size={"4xl"}
+                    color={"white"}
+                    mb={6}
+                    letterSpacing={-1}
+                    fontWeight={"extrabold"}
+                >
                     {title}
                 </Heading>
                 <Heading color={"white"} size={"md"} fontFamily={"cursive"}>
