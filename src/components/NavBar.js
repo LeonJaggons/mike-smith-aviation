@@ -133,7 +133,7 @@ export const NavBar = () => {
             borderBottomWidth={borderWidth}
             shadow={"sm"}
             alignItems={"center"}
-            bg={!isMobile ? bg : "gray.900"}
+            bg={bg}
             px={"10%"}
             // justify={"space-between"}
             zIndex={999}

@@ -72,11 +72,13 @@ const LightBoxModal = ({ isOpen, onClose, img }) => {
 };
 
 const GalleryImage = ({ src, openModal, index }) => {
+    const [loading, setLoading] = useState(true);
     const openImage = () => {
         openModal(src);
     };
     return (
         <Image
+            onLoad={() => setLoading(false)}
             onMouseDown={openImage}
             borderRadius={3}
             src={src}
@@ -84,6 +86,7 @@ const GalleryImage = ({ src, openModal, index }) => {
             w={"full"}
             objectFit={"cover"}
             cursor={"pointer"}
+            loading={loading}
         />
     );
 };

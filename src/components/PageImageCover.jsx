@@ -1,7 +1,9 @@
 import { Box, Heading, Image, VStack } from "@chakra-ui/react";
 import React from "react";
+import { useSelector } from "react-redux";
 
 function PageImageCover({ src, title, sub }) {
+    const isMobile = useSelector((state) => state.app.isMobile);
     return (
         <Box position={"relative"}>
             <Image
@@ -36,7 +38,7 @@ function PageImageCover({ src, title, sub }) {
                 <Heading
                     textAlign={"center"}
                     color={"white"}
-                    size={"sm"}
+                    size={isMobile ? "sm" : "md"}
                     fontFamily={"cursive"}
                 >
                     {sub}

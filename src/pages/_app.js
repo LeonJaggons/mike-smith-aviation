@@ -158,7 +158,7 @@ export default function App({ Component, pageProps }) {
                                     flex={1}
                                     px={"10%"}
                                     w={isMobile ? windowSize[0] : "100%"}
-                                    py={"56px"}
+                                    py={isMobile ? "18px" : "46px"}
                                     bg={"white"}
                                 >
                                     <Component {...pageProps} />
