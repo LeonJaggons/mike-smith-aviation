@@ -46,7 +46,13 @@ import {
     Tag,
 } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
-import { FaFileUpload, FaHistory, FaPlus, FaUpload } from "react-icons/fa";
+import {
+    FaCheck,
+    FaFileUpload,
+    FaHistory,
+    FaPlus,
+    FaUpload,
+} from "react-icons/fa";
 import { useSelector } from "react-redux";
 import {
     MdAdd,
@@ -60,6 +66,7 @@ import {
     MdImage,
     MdInfoOutline,
     MdIosShare,
+    MdMoreHoriz,
     MdMoreVert,
     MdNotes,
     MdSend,
@@ -336,7 +343,7 @@ const AddDocModal = ({ isOpen, onClose }) => {
                                 onClick={onClose}
                                 variant={"ghost"}
                                 borderRadius={0}
-                                size={"sm"}
+                                size={"md"}
                             >
                                 Cancel
                             </Button>
@@ -344,12 +351,10 @@ const AddDocModal = ({ isOpen, onClose }) => {
                                 isDisabled={isDisabled}
                                 isLoading={loading}
                                 onClick={handleUploadDocument}
-                                color={"white"}
-                                bg={"black"}
-                                colorScheme="blackAlpha"
+                                colorScheme="blue"
                                 borderRadius={0}
-                                leftIcon={<Icon as={FaUpload} />}
-                                size={"sm"}
+                                leftIcon={<Icon as={FaCheck} />}
+                                size={"md"}
                             >
                                 Confirm
                             </Button>
@@ -505,7 +510,7 @@ const DocumentGallery = ({ isExpired }) => {
     const documents = useSelector((state) => state.app.documents);
     console.log(documents);
     return (
-        <SimpleGrid columns={[1, 1, 2, 3]} w={"full"} spacing={2}>
+        <SimpleGrid columns={[1, 2, 2, 3]} w={"full"} spacing={2}>
             {documents.map((d) => (
                 <Document key={d.docID} doc={d} isExpired={isExpired} />
             ))}
@@ -547,31 +552,16 @@ const Document = ({ doc, isCard, isExpired }) => {
         >
             <CardBody>
                 <VStack alignItems={"start"} h={"full"}>
-                    <HStack w={"full"} justify={"space-between"}>
-                        <HStack spacing={4}>
-                            <FileTypeIcon filetype={doc.fileType} />
-                            {!isLoading ? (
-                                <Heading noOfLines={1} size={"xs"}>
-                                    {doc.fileName}
-                                </Heading>
-                            ) : (
-                                <Spinner size={"sm"} color={"gray.500"} />
-                            )}
-                        </HStack>
-                        <HStack spacing={"2px"}>
-                            <IconButton
-                                icon={<Icon as={MdDownload} />}
-                                variant={"ghost"}
-                                isDisabled={isExpired}
-                                onClick={handleDownloadFile}
-                            />
-
-                            <DocumentMenu
-                                doc={doc}
-                                isExpired={isExpired}
-                                download={handleDownloadFile}
-                            />
-                        </HStack>
+                    <HStack w={"full"} justify={"start"} spacing={4} mb={2}>
+                        <FileTypeIcon filetype={doc.fileType} />
+                        {!isLoading ? (
+                            <Heading noOfLines={1} size={"xs"}>
+                                {doc.fileName}
+                            </Heading>
+                        ) : (
+                            <Spinner size={"sm"} color={"gray.500"} />
+                        )}
+                        <Box />
                     </HStack>
                     {isCard && (
                         <Center
@@ -587,6 +577,25 @@ const Document = ({ doc, isCard, isExpired }) => {
                             />
                         </Center>
                     )}
+                    <HStack
+                        w={"full"}
+                        justify={"space-around"}
+                        divider={<Divider orientation={"vertical"} h={"50%"} />}
+                    >
+                        <DetailButton doc={doc} iconOnly />
+                        <IconButton
+                            icon={<Icon as={MdDownload} />}
+                            variant={"ghost"}
+                            isDisabled={isExpired}
+                            onClick={handleDownloadFile}
+                        />
+
+                        <DocumentMenu
+                            doc={doc}
+                            isExpired={isExpired}
+                            download={handleDownloadFile}
+                        />
+                    </HStack>
                 </VStack>
             </CardBody>
         </Card>
@@ -601,7 +610,7 @@ const DocumentMenu = ({ download, doc, isExpired }) => {
                 <IconButton
                     variant={"ghost"}
                     onMouseOver={(e) => e.stopPropagation()}
-                    icon={<Icon as={MdMoreVert} />}
+                    icon={<Icon as={MdMoreHoriz} />}
                     p={2}
                 ></IconButton>
             </PopoverTrigger>
@@ -695,7 +704,7 @@ const DeleteButton = ({ doc }) => {
     );
 };
 
-const DetailButton = ({ doc }) => {
+const DetailButton = ({ doc, iconOnly }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
     const [createUser, setCreateUser] = useState(null);
 
@@ -709,15 +718,23 @@ const DetailButton = ({ doc }) => {
     }, []);
     return (
         <>
-            <DocumentMenuButton icon={MdInfoOutline} onClick={onOpen}>
-                Details
-            </DocumentMenuButton>
+            {iconOnly ? (
+                <IconButton
+                    variant={"link"}
+                    icon={<Icon as={MdInfoOutline} />}
+                    onClick={onOpen}
+                />
+            ) : (
+                <DocumentMenuButton icon={MdInfoOutline} onClick={onOpen}>
+                    Details
+                </DocumentMenuButton>
+            )}
             <Modal isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay></ModalOverlay>
                 <ModalContent borderRadius={0}>
                     <ModalBody p={6}>
                         <VStack spacing={4} w={"full"} align={"start"}>
-                            <HStack>
+                            <HStack mb={2}>
                                 <FileTypeIcon filetype={doc.fileType} />
                                 <Heading size={"sm"}>{doc.fileName}</Heading>
                             </HStack>
@@ -745,6 +762,10 @@ const DetailButton = ({ doc }) => {
                                 value={doc.fileName}
                             />
                             <DetailLine
+                                label={"Description"}
+                                value={doc.description}
+                            />
+                            <DetailLine
                                 label={"Document category"}
                                 value={doc.documentType}
                             />
@@ -753,6 +774,16 @@ const DetailButton = ({ doc }) => {
                                 value={doc.fileType}
                             />
                         </VStack>
+                        <Button
+                            w={"full"}
+                            mt={6}
+                            borderRadius={0}
+                            colorScheme={"blue"}
+                            leftIcon={<Icon as={MdDownload} />}
+                            size={"sm"}
+                        >
+                            Download
+                        </Button>
                     </ModalBody>
                 </ModalContent>
             </Modal>
@@ -766,7 +797,7 @@ const DetailLine = ({ label, value }) => {
             <Heading fontSize={"14px"} fontWeight={500}>
                 {label}
             </Heading>
-            <Text fontSize={"12px"}>{value}</Text>
+            <Text fontSize={"13px"}>{value}</Text>
         </VStack>
     );
 };

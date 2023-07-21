@@ -1,3 +1,4 @@
+import PageImageCover from "@/components/PageImageCover";
 import { Box, Heading, Image } from "@chakra-ui/react";
 import Head from "next/head";
 
@@ -17,16 +18,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <Image
-                    src={"/mike-cover.jpg"}
-                    w={"100vw"}
-                    h={"100vh"}
-                    objectFit={"cover"}
-                    filter={"brightness(50%)"}
-                    userSelect={"none"}
-                    draggable={false}
-                />
-                <Heading>More content, announcements, events etc...</Heading>
+                {/* <Heading>More content, announcements, events etc...</Heading> */}
             </main>
         </>
     );

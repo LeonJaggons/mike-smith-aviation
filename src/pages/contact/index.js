@@ -4,6 +4,7 @@ import {
     Center,
     HStack,
     Heading,
+    Image,
     Input,
     Text,
     Textarea,
@@ -14,10 +15,10 @@ import PageImageCover from "../../components/PageImageCover";
 
 function index() {
     return (
-        <Box pb={12}>
+        <Box py={12}>
             <HStack alignItems={"start"} spacing={8}>
                 <ContactForm />
-                <ContactDetails />
+                <Image src={"/contact_1.jpg"} w={"50%"} borderRadius={5} />
             </HStack>
         </Box>
     );
