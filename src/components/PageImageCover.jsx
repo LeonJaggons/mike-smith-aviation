@@ -14,7 +14,7 @@ function PageImageCover({ src, title, sub }) {
                 src={src}
                 objectFit={"cover"}
                 // objectPosition={"top"}
-                filter={"brightness(50%)"}
+                filter={"brightness(40%)"}
             ></Image>
             <VStack
                 bottom={"350px"}

@@ -153,7 +153,7 @@ export default function App({ Component, pageProps }) {
                                     {...covers[[router.pathname]]}
                                 />
                             )}
-                            {router.pathname !== "/" && router.pathname && (
+                            {router.pathname !== "/" && router.pathname ? (
                                 <Box
                                     flex={1}
                                     px={"10%"}
@@ -163,6 +163,8 @@ export default function App({ Component, pageProps }) {
                                 >
                                     <Component {...pageProps} />
                                 </Box>
+                            ) : (
+                                <Component {...pageProps} />
                             )}
                             <Footer />
                         </Box>
