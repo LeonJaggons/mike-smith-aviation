@@ -91,7 +91,7 @@ export default function App({ Component, pageProps }) {
 
     const covers = {
         "/": {
-            src: "/mike-cover.jpg",
+            src: "/mike-cover-2.jpg",
             // title: "CONTACT US",
             // sub: "Connecting You with the Sky, Get in Touch Today!",
         },

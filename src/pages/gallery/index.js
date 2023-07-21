@@ -10,6 +10,8 @@ import {
     ModalContent,
     ModalBody,
     Heading,
+    VStack,
+    Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -28,7 +30,17 @@ function index() {
             <Spinner />
         </Center>
     ) : (
-        <PhotoGallery photos={photos} />
+        <VStack spacing={4}>
+            <Text>
+                Step into the captivating world of aviation through our gallery.
+                Here, you can witness the breathtaking moments captured during
+                our flight training sessions, scenic flights, and thrilling
+                aviation events. Immerse yourself in the beauty of flight and
+                get inspired to embark on your own aerial adventures with Mike
+                Smith Aviation!
+            </Text>
+            <PhotoGallery photos={photos} />
+        </VStack>
     );
 }
 
