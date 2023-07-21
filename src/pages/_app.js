@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
     const [windowSize, setWindowSize] = useState([0, 0]);
+    const [isMobile, setIsMobile] = useState(false);
     const router = useRouter();
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
@@ -77,11 +78,13 @@ export default function App({ Component, pageProps }) {
                 return navigator.userAgent.match(toMatchItem);
             });
         }
+        const isMob = detectMob();
         store.dispatch({
             type: "SET",
             attr: "isMobile",
-            payload: detectMob(),
+            payload: isMob,
         });
+        setIsMobile(isMob);
 
         return unsub;
     }, []);
@@ -126,20 +129,20 @@ export default function App({ Component, pageProps }) {
 
     return (
         <>
-            <Head>
+            {/* <Head>
                 <meta
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
-            </Head>
+            </Head> */}
             <Providers>
                 <SizeMe>
                     {({ size }) => (
                         <Box
-                            h={"100vh"}
-                            w={windowSize[0]}
-                            maxW={windowSize[0]}
-                            minW={windowSize[0]}
+                            // h={"100vh"}
+                            w={isMobile ? windowSize[0] : "100vw"}
+                            maxW={isMobile ? windowSize[0] : "100vw"}
+                            minW={isMobile ? windowSize[0] : "100vw"}
                             overflowX={"hidden"}
                             bg={"black"}
                         >
@@ -154,8 +157,9 @@ export default function App({ Component, pageProps }) {
                                 <Box
                                     flex={1}
                                     px={"10%"}
-                                    w={windowSize[0]}
+                                    w={isMobile ? windowSize[0] : "100%"}
                                     py={"56px"}
+                                    bg={"white"}
                                 >
                                     <Component {...pageProps} />
                                 </Box>

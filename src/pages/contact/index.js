@@ -9,17 +9,28 @@ import {
     Text,
     Textarea,
     VStack,
+    Stack,
 } from "@chakra-ui/react";
 import React from "react";
 import PageImageCover from "../../components/PageImageCover";
+import { useSelector } from "react-redux";
 
 function index() {
+    const isMobile = useSelector((state) => state.app.isMobile);
     return (
         <Box py={12}>
-            <HStack alignItems={"start"} spacing={8}>
+            <Stack
+                alignItems={"start"}
+                spacing={8}
+                direction={isMobile ? "column" : "row"}
+            >
                 <ContactForm />
-                <Image src={"/contact_1.jpg"} w={"50%"} borderRadius={5} />
-            </HStack>
+                <Image
+                    src={"/contact_1.jpg"}
+                    w={isMobile ? "100%" : "50%"}
+                    borderRadius={5}
+                />
+            </Stack>
         </Box>
     );
 }

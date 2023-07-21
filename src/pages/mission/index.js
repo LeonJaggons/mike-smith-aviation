@@ -18,7 +18,10 @@ function index() {
     console.log(isMobile, "MOBILE");
     return (
         <Box my={12}>
-            <Stack direction={isMobile ? "column" : "row"} spacing={12}>
+            <Stack
+                direction={isMobile ? "column-reverse" : ["column", "row"]}
+                spacing={12}
+            >
                 <VStack flex={1}>
                     <Icon
                         as={BiSolidQuoteAltLeft}
@@ -52,7 +55,9 @@ function index() {
                 <Image
                     borderRadius={5}
                     src={"/mission_statement_1.jpg"}
-                    w={"full"}
+                    w={isMobile ? "full" : "300px"}
+                    flex={!isMobile && 1}
+                    objectFit={"cover"}
                 />
             </Stack>
         </Box>

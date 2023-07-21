@@ -59,6 +59,7 @@ import {
     FaSignOutAlt,
 } from "react-icons/fa";
 import {
+    MdClose,
     MdLock,
     MdLogin,
     MdLogout,
@@ -90,6 +91,7 @@ export const NavBar = () => {
     const user = useSelector((state) => state.app.user);
     const isMobile = useSelector((state) => state.app.isMobile);
     useMotionValueEvent(scrollY, "change", (latest) => {
+        console.log(scrollY);
         const windowHeight = windowSize.current[0];
         const scaledHeight = windowHeight / 4;
         if (router.pathname.split("/").includes("member")) {
@@ -118,22 +120,20 @@ export const NavBar = () => {
         }
     }, [router.pathname]);
     const { isOpen, onOpen, onClose } = useDisclosure();
-
     return (
         <HStack
             as={motion.div}
             position={"fixed"}
-            w={windowSize.current ? windowSize.current[0] : "100%"}
+            w={isMobile && windowSize.current ? windowSize.current[0] : "100%"}
             top={0}
             left={0}
             p={4}
             flexWrap={"nowrap"}
-            overflowX={"scroll"}
             // style={{ WebkitBackfaceVisibility: "hidden" }}
             borderBottomWidth={borderWidth}
             shadow={"sm"}
             alignItems={"center"}
-            bg={bg}
+            bg={!isMobile ? bg : "gray.900"}
             px={"10%"}
             // justify={"space-between"}
             zIndex={999}
@@ -142,7 +142,17 @@ export const NavBar = () => {
             {isMobile && (
                 <>
                     <Box flex={1} />
-                    <IconButton onClick={onOpen} icon={<Icon as={MdMenu} />} />
+                    <IconButton
+                        variant={"link"}
+                        onClick={onOpen}
+                        icon={
+                            <Icon
+                                as={MdMenu}
+                                boxSize={"40px"}
+                                color={fontColor}
+                            />
+                        }
+                    />
                     <MobileNavBar isOpen={isOpen} onClose={onClose} />
                 </>
             )}
@@ -256,11 +266,56 @@ const MobileNavBar = ({ isOpen, onClose }) => {
             <DrawerOverlay />
             <DrawerContent bg={"gray.900"}>
                 <DrawerBody>
-                    <Heading>Mobile Modal</Heading>
-                    <Button onClick={onClose}>Close</Button>
+                    <HStack alignItems={"space-between"} w={"full"} pt={4}>
+                        <MobileNavItem>Sign In</MobileNavItem>
+                        <Box flex={1} />
+                        <IconButton
+                            variant={"link"}
+                            bg={"transparent"}
+                            icon={
+                                <Icon
+                                    as={MdClose}
+                                    color={"white"}
+                                    boxSize={"40px"}
+                                />
+                            }
+                            onClick={onClose}
+                        >
+                            Close
+                        </IconButton>
+                    </HStack>
+                    <VStack w={"full"} alignItems={"flex-end"} mt={4}>
+                        <MobileNavItem href={"/mission"} close={onClose}>
+                            Mission Statement
+                        </MobileNavItem>
+                        <MobileNavItem href={"/learn"} close={onClose}>
+                            Learn to Fly
+                        </MobileNavItem>
+                        <MobileNavItem href={"/fleet"} close={onClose}>
+                            Our Fleet
+                        </MobileNavItem>
+                        <MobileNavItem href={"/licenses"} close={onClose}>
+                            Licenses & Ratings
+                        </MobileNavItem>
+                        <MobileNavItem href={"/gallery"} close={onClose}>
+                            Gallery
+                        </MobileNavItem>
+                        <MobileNavItem href={"/contact"} close={onClose}>
+                            Contact Us
+                        </MobileNavItem>
+                    </VStack>
                 </DrawerBody>
             </DrawerContent>
         </Drawer>
+    );
+};
+const MobileNavItem = ({ children, href, close }) => {
+    return (
+        <Link href={href ? href : ""} onClick={close}>
+            <Heading color={"white"} size={"lg"}>
+                {children}
+            </Heading>
+        </Link>
     );
 };
 export const SocialBar = ({ fontColor }) => {
@@ -710,10 +765,11 @@ const SubNavItem = ({ label, href, disabled }) => {
     );
 };
 export const MikeSmithLogo = ({ color }) => {
+    const isMobile = useSelector((state) => state.app.isMobile);
     return (
         <Link href="/" display={"inline-flex"}>
             <HStack align={"center"}>
-                <Center boxSize={"45px"} bg={"black"}>
+                <Center boxSize={"45px"} bg={isMobile ? "gray.900" : "black"}>
                     <Icon
                         as={BiSolidPlaneTakeOff}
                         color={"white"}
