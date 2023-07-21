@@ -4,18 +4,22 @@ import {
     Heading,
     Icon,
     Image,
+    Stack,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 function index() {
+    const isMobile = useSelector((state) => state.app.isMobile);
+    console.log(isMobile, "MOBILE");
     return (
         <Box my={12}>
-            <HStack spacing={12}>
-                <VStack>
+            <Stack direction={isMobile ? "column" : "row"} spacing={12}>
+                <VStack flex={1}>
                     <Icon
                         as={BiSolidQuoteAltLeft}
                         boxSize={"40px"}
@@ -48,9 +52,9 @@ function index() {
                 <Image
                     borderRadius={5}
                     src={"/mission_statement_1.jpg"}
-                    w={"500px"}
+                    w={"full"}
                 />
-            </HStack>
+            </Stack>
         </Box>
     );
 }

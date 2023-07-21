@@ -29,8 +29,14 @@ import {
     Tag,
     InputGroup,
     InputLeftAddon,
+    Drawer,
+    DrawerOverlay,
+    DrawerContent,
+    DrawerBody,
 } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
 import { signOut } from "firebase/auth";
+
 import {
     motion,
     useMotionValue,
@@ -39,7 +45,6 @@ import {
     useViewportScroll,
 } from "framer-motion";
 import moment from "moment";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { BiHdd, BiSolidPlaneTakeOff } from "react-icons/bi";
@@ -47,6 +52,7 @@ import {
     FaEnvelope,
     FaEnvelopeOpenText,
     FaFacebook,
+    FaHamburger,
     FaInstagram,
     FaMailBulk,
     FaSignInAlt,
@@ -56,6 +62,7 @@ import {
     MdLock,
     MdLogin,
     MdLogout,
+    MdMenu,
     MdOutlinePassword,
     MdPassword,
 } from "react-icons/md";
@@ -81,6 +88,7 @@ export const NavBar = () => {
     const { scrollY } = useScroll();
     const router = useRouter();
     const user = useSelector((state) => state.app.user);
+    const isMobile = useSelector((state) => state.app.isMobile);
     useMotionValueEvent(scrollY, "change", (latest) => {
         const windowHeight = windowSize.current[0];
         const scaledHeight = windowHeight / 4;
@@ -109,118 +117,150 @@ export const NavBar = () => {
             setBg(`rgba(255,255,255,0)`);
         }
     }, [router.pathname]);
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <HStack
             as={motion.div}
             position={"fixed"}
-            w={"full"}
-            spacing={6}
+            w={windowSize.current ? windowSize.current[0] : "100%"}
+            top={0}
+            left={0}
             p={4}
+            flexWrap={"nowrap"}
+            overflowX={"scroll"}
+            // style={{ WebkitBackfaceVisibility: "hidden" }}
             borderBottomWidth={borderWidth}
             shadow={"sm"}
-            align={"center"}
+            alignItems={"center"}
             bg={bg}
             px={"10%"}
-            justify={"space-between"}
+            // justify={"space-between"}
             zIndex={999}
         >
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
-            <VStack align={"end"} spacing={4} flex={1}>
-                <HStack spacing={"0px"}>
-                    <SocialBar fontColor={fontColor} />
-                    <SignInButton fontColor={fontColor} />
-                    {isSignedIn && user.adminRole >= 4 ? (
-                        <Tag
-                            colorScheme={"gray"}
-                            fontWeight={700}
-                            borderRadius={0}
-                            ml={4}
-                        >
-                            Admin
-                        </Tag>
-                    ) : (
-                        isSignedIn && (
+            {isMobile && (
+                <>
+                    <Box flex={1} />
+                    <IconButton onClick={onOpen} icon={<Icon as={MdMenu} />} />
+                    <MobileNavBar isOpen={isOpen} onClose={onClose} />
+                </>
+            )}
+            {!isMobile ? (
+                <VStack align={"end"} spacing={4} flex={1}>
+                    <HStack spacing={"0px"}>
+                        <SocialBar fontColor={fontColor} />
+                        <SignInButton fontColor={fontColor} />
+                        {isSignedIn && user.adminRole >= 4 ? (
                             <Tag
-                                ml={4}
-                                colorScheme={"blue"}
+                                colorScheme={"gray"}
                                 fontWeight={700}
                                 borderRadius={0}
+                                ml={4}
                             >
-                                Member
+                                Admin
                             </Tag>
-                        )
-                    )}
-                    {isSignedIn && <UserAvatar />}
-                </HStack>
-                <HStack spacing={8} flex={1}>
-                    <>
-                        <NavItem color={fontColor} href={"/mission"}>
-                            Mission Statement
-                        </NavItem>
-                        <NavItem
-                            color={fontColor}
-                            subItems={[
-                                {
-                                    label: "Learn to Fly",
-                                    href: "/learn",
-                                },
-                                {
-                                    label: "Our Fleet",
-                                    href: "/fleet",
-                                },
-                                {
-                                    label: "Certificates & Ratings",
-                                    href: "/licenses",
-                                },
-                                {
-                                    label: "Ground School",
-                                    disabled: true,
-                                    href: "/contact",
-                                },
-                                {
-                                    label: "Training Simulator",
-                                    disabled: true,
-                                    href: "/contact",
-                                },
-                                {
-                                    label: "Career Pathways",
-                                    disabled: true,
-                                    href: "/contact",
-                                },
-                            ]}
-                        >
-                            Flight Training
-                        </NavItem>
-                        <NavItem color={fontColor} href={"/gallery"}>
-                            Gallery
-                        </NavItem>
-                        <NavItem color={fontColor} href={"/contact"}>
-                            Contact Us
-                        </NavItem>
-                    </>
-                    {isSignedIn && (
-                        <NavItem
-                            color={fontColor}
-                            subItems={[
-                                {
-                                    label: "Appointments",
-                                    href: "/member/appointments",
-                                },
-                                {
-                                    label: "Documents",
-                                    href: "/member/documents",
-                                },
-                                { label: "Users", href: "/member/users" },
-                            ]}
-                        >
-                            Members
-                        </NavItem>
-                    )}
-                    {/* <NavItem color={fontColor}>Current Students</NavItem> */}
-                </HStack>
-            </VStack>
+                        ) : (
+                            isSignedIn && (
+                                <Tag
+                                    ml={4}
+                                    colorScheme={"blue"}
+                                    fontWeight={700}
+                                    borderRadius={0}
+                                >
+                                    Member
+                                </Tag>
+                            )
+                        )}
+                        {isSignedIn && <UserAvatar />}
+                    </HStack>
+                    <HStack spacing={8} flex={1}>
+                        <>
+                            <NavItem color={fontColor} href={"/mission"}>
+                                Mission Statement
+                            </NavItem>
+                            <NavItem
+                                color={fontColor}
+                                subItems={[
+                                    {
+                                        label: "Learn to Fly",
+                                        href: "/learn",
+                                    },
+                                    {
+                                        label: "Our Fleet",
+                                        href: "/fleet",
+                                    },
+                                    {
+                                        label: "Certificates & Ratings",
+                                        href: "/licenses",
+                                    },
+                                    {
+                                        label: "Ground School",
+                                        disabled: true,
+                                        href: "/contact",
+                                    },
+                                    {
+                                        label: "Training Simulator",
+                                        disabled: true,
+                                        href: "/contact",
+                                    },
+                                    {
+                                        label: "Career Pathways",
+                                        disabled: true,
+                                        href: "/contact",
+                                    },
+                                ]}
+                            >
+                                Flight Training
+                            </NavItem>
+                            <NavItem color={fontColor} href={"/gallery"}>
+                                Gallery
+                            </NavItem>
+                            <NavItem color={fontColor} href={"/contact"}>
+                                Contact Us
+                            </NavItem>
+                        </>
+                        {isSignedIn && (
+                            <NavItem
+                                color={fontColor}
+                                subItems={[
+                                    {
+                                        label: "Appointments",
+                                        href: "/member/appointments",
+                                    },
+                                    {
+                                        label: "Documents",
+                                        href: "/member/documents",
+                                    },
+                                    { label: "Users", href: "/member/users" },
+                                ]}
+                            >
+                                Members
+                            </NavItem>
+                        )}
+                        {/* <NavItem color={fontColor}>Current Students</NavItem> */}
+                    </HStack>
+                </VStack>
+            ) : (
+                <></>
+            )}
+            {/* {false && <MobileNavBar />} */}
         </HStack>
+    );
+};
+
+const DesktopNavBar = () => {};
+const MobileNavBar = ({ isOpen, onClose }) => {
+    return (
+        <Drawer size={"full"} isOpen={isOpen} onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent bg={"gray.900"}>
+                <DrawerBody>
+                    <Heading>Mobile Modal</Heading>
+                    <Button onClick={onClose}>Close</Button>
+                </DrawerBody>
+            </DrawerContent>
+        </Drawer>
     );
 };
 export const SocialBar = ({ fontColor }) => {
@@ -671,9 +711,9 @@ const SubNavItem = ({ label, href, disabled }) => {
 };
 export const MikeSmithLogo = ({ color }) => {
     return (
-        <Link href="/">
-            <HStack align={"center"} mr={6}>
-                <Center boxSize={"40px"} bg={"black"}>
+        <Link href="/" display={"inline-flex"}>
+            <HStack align={"center"}>
+                <Center boxSize={"45px"} bg={"black"}>
                     <Icon
                         as={BiSolidPlaneTakeOff}
                         color={"white"}
@@ -694,7 +734,6 @@ export const MikeSmithLogo = ({ color }) => {
                         color={color}
                         fontSize={"20px"}
                         fontWeight={"extrabold"}
-                        letterSpacing={"-.4px"}
                     >
                         AVIATION
                     </Heading>

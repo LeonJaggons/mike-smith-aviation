@@ -7,7 +7,7 @@ function PageImageCover({ src, title, sub }) {
             <Image
                 userSelect={"none"}
                 draggable={false}
-                w={"100vw !important"}
+                w={"100%"}
                 h={"100vh"}
                 src={src}
                 objectFit={"cover"}
@@ -17,9 +17,11 @@ function PageImageCover({ src, title, sub }) {
             <VStack
                 bottom={"350px"}
                 alignSelf={"center"}
+                alignItems={"center"}
                 position={"absolute"}
                 spacing={4}
                 w={"full"}
+                p={6}
             >
                 <Heading
                     size={"4xl"}
@@ -27,10 +29,16 @@ function PageImageCover({ src, title, sub }) {
                     mb={6}
                     letterSpacing={-1}
                     fontWeight={"extrabold"}
+                    textAlign={"center"}
                 >
                     {title}
                 </Heading>
-                <Heading color={"white"} size={"md"} fontFamily={"cursive"}>
+                <Heading
+                    textAlign={"center"}
+                    color={"white"}
+                    size={"sm"}
+                    fontFamily={"cursive"}
+                >
                     {sub}
                 </Heading>
             </VStack>

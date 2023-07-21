@@ -1,5 +1,5 @@
 import Providers from "@/components/Providers";
-import "@/styles/globals.css";
+// import "@/styles/globals.css";
 import { MikeSmithLogo, NavBar, SocialBar } from "../components/NavBar";
 import {
     Box,
@@ -7,11 +7,12 @@ import {
     HStack,
     Heading,
     Icon,
+    Stack,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SizeMe } from "react-sizeme";
 import PageImageCover from "../components/PageImageCover";
 import { onAuthStateChanged } from "firebase/auth";
@@ -19,9 +20,12 @@ import { auth } from "@/firebase/firebase_init";
 import store from "@/redux/store";
 import { getUserByID } from "@/firebase/firestore_helpers";
 import { MdLocationPin } from "react-icons/md";
+import Head from "next/head";
+import { useSelector } from "react-redux";
 
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
+    const [windowSize, setWindowSize] = useState([0, 0]);
     const router = useRouter();
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
@@ -53,8 +57,35 @@ export default function App({ Component, pageProps }) {
                 router.push("/");
             }
         });
+        if (window) {
+            console.log(window);
+            const newWS = [window.innerWidth, window.innerHeight];
+            setWindowSize([...newWS]);
+        }
+        function detectMob() {
+            const toMatch = [
+                /Android/i,
+                /webOS/i,
+                /iPhone/i,
+                /iPad/i,
+                /iPod/i,
+                /BlackBerry/i,
+                /Windows Phone/i,
+            ];
+
+            return toMatch.some((toMatchItem) => {
+                return navigator.userAgent.match(toMatchItem);
+            });
+        }
+        store.dispatch({
+            type: "SET",
+            attr: "isMobile",
+            payload: detectMob(),
+        });
+
         return unsub;
     }, []);
+
     const covers = {
         "/": {
             src: "/mike-cover.jpg",
@@ -94,42 +125,66 @@ export default function App({ Component, pageProps }) {
     };
 
     return (
-        <Providers>
-            <SizeMe>
-                {({ size }) => (
-                    <VStack
-                        h={"100vh"}
-                        w={"100vw"}
-                        alignItems={"flex-start"}
-                        spacing={0}
-                    >
-                        <NavBar size={size} />
-                        {/* {router.pathname !== "/" && <Box h={"64px"} />} */}
-                        {Object.keys(covers).includes(router.pathname) && (
-                            <PageImageCover {...covers[[router.pathname]]} />
-                        )}
-                        <Box flex={1} bg={"white"} w={"full"}>
-                            <Box
-                                px={"10%"}
-                                w={"full"}
-                                py={"56px"}
-                                minH={"80vh"}
-                            >
-                                <Component {...pageProps} />
-                            </Box>
+        <>
+            <Head>
+                <meta
+                    name="viewport"
+                    content="width=device-width, initial-scale=1"
+                />
+            </Head>
+            <Providers>
+                <SizeMe>
+                    {({ size }) => (
+                        <Box
+                            h={"100vh"}
+                            w={windowSize[0]}
+                            maxW={windowSize[0]}
+                            minW={windowSize[0]}
+                            overflowX={"hidden"}
+                            bg={"black"}
+                        >
+                            <NavBar size={size} />
+                            {/* {router.pathname !== "/" && <Box h={"64px"} />} */}
+                            {Object.keys(covers).includes(router.pathname) && (
+                                <PageImageCover
+                                    {...covers[[router.pathname]]}
+                                />
+                            )}
+                            {router.pathname !== "/" && router.pathname && (
+                                <Box
+                                    flex={1}
+                                    px={"10%"}
+                                    w={windowSize[0]}
+                                    py={"56px"}
+                                >
+                                    <Component {...pageProps} />
+                                </Box>
+                            )}
+                            <Footer />
                         </Box>
-                        <Footer />
-                    </VStack>
-                )}
-            </SizeMe>
-        </Providers>
+                    )}
+                </SizeMe>
+            </Providers>
+        </>
     );
 }
 
 const Footer = () => {
+    const isMobile = useSelector((state) => state.app.isMobile);
     return (
-        <Box w={"full"} bg={"gray.900"} px={"10%"} py={12} pb={6}>
-            <HStack alignItems={"start"} justify={"space-between"}>
+        <Box
+            w={"full"}
+            bg={"gray.900"}
+            px={"10%"}
+            py={isMobile ? 6 : 12}
+            pb={6}
+        >
+            <Stack
+                direction={isMobile ? "column" : "row"}
+                alignItems={isMobile ? "center" : "start"}
+                justify={isMobile ? "center" : "space-between"}
+                spacing={isMobile && 8}
+            >
                 <VStack align={"start"} spacing={2}>
                     <Heading size={"sm"} color={"white"}>
                         Mike Smith Aviation
@@ -245,16 +300,16 @@ const Footer = () => {
                         </Text>
                     </VStack>
                 </HStack>
-                <Box />
-                <Box />
-            </HStack>
+            </Stack>
             <Divider my={6} size={"lg"} />
             <HStack alignItems={"end"} justify={"space-between"}>
                 <HStack spacing={0} alignItems={"end"}>
                     <MikeSmithLogo color={"white"} />
-                    <Text color={"white"} fontSize={12}>
-                        © 2023 Mike Smith Aviation. All rights reserved.
-                    </Text>
+                    {!isMobile && (
+                        <Text color={"white"} fontSize={12}>
+                            © 2023 Mike Smith Aviation. All rights reserved.
+                        </Text>
+                    )}
                 </HStack>
                 <HStack spacing={0}>
                     <SocialBar fontColor={"white"} />

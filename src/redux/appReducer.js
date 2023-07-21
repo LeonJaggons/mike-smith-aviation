@@ -3,6 +3,7 @@ const appState = {
     isSignedIn: false,
     user: null,
     documents: [],
+    isMobile: false,
 };
 
 const appReducer = (state = appState, action) => {
