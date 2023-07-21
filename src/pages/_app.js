@@ -182,14 +182,17 @@ const Footer = () => {
             px={"10%"}
             py={isMobile ? 6 : 12}
             pb={6}
+            borderTopWidth={2}
+            borderTopColor={"rgba(0,0,0,.2)"}
         >
             <Stack
                 direction={isMobile ? "column" : "row"}
                 alignItems={isMobile ? "center" : "start"}
                 justify={isMobile ? "center" : "space-between"}
                 spacing={isMobile && 8}
+                w={"full"}
             >
-                <VStack align={"start"} spacing={2}>
+                <VStack align={"start"} spacing={2} w={"full"}>
                     <Heading size={"sm"} color={"white"}>
                         Mike Smith Aviation
                     </Heading>
@@ -200,7 +203,7 @@ const Footer = () => {
                         team@mikesmithaviation.com
                     </Text>
                 </VStack>
-                <Box alignItems={"start"}>
+                <Box alignItems={"start"} w={"full"}>
                     <HStack w={"160px"}>
                         <Text
                             color={"white"}
@@ -293,7 +296,7 @@ const Footer = () => {
                         </Text>
                     </HStack>
                 </Box>
-                <HStack>
+                <HStack justify={"start"} w={"full"}>
                     <Icon as={MdLocationPin} color={"white"} boxSize={"24px"} />
                     <VStack alignItems={"start"}>
                         <Text fontSize={12} color={"white"} mb={-2}>
@@ -306,7 +309,7 @@ const Footer = () => {
                 </HStack>
             </Stack>
             <Divider my={6} size={"lg"} />
-            <HStack alignItems={"end"} justify={"space-between"}>
+            <HStack alignItems={"center"} justify={"space-between"} w={"full"}>
                 <HStack spacing={0} alignItems={"end"}>
                     <MikeSmithLogo color={"white"} />
                     {!isMobile && (
