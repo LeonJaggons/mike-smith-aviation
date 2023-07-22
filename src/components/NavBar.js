@@ -91,7 +91,6 @@ export const NavBar = () => {
     const user = useSelector((state) => state.app.user);
     const isMobile = useSelector((state) => state.app.isMobile);
     useMotionValueEvent(scrollY, "change", (latest) => {
-        console.log(scrollY);
         const windowHeight = windowSize.current[0];
         const scaledHeight = windowHeight / 4;
         if (router.pathname.split("/").includes("member")) {

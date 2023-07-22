@@ -22,6 +22,7 @@ import { getUserByID } from "@/firebase/firestore_helpers";
 import { MdLocationPin } from "react-icons/md";
 import Head from "next/head";
 import { useSelector } from "react-redux";
+import { Link } from "@chakra-ui/next-js";
 
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
@@ -30,7 +31,6 @@ export default function App({ Component, pageProps }) {
     const router = useRouter();
     useEffect(() => {
         const unsub = onAuthStateChanged(auth, (user) => {
-            console.log(user);
             if (user) {
                 getUserByID(user.uid).then((dbUser) => {
                     store.dispatch({
@@ -59,7 +59,6 @@ export default function App({ Component, pageProps }) {
             }
         });
         if (window) {
-            console.log(window);
             const newWS = [window.innerWidth, window.innerHeight];
             setWindowSize([...newWS]);
         }
@@ -160,6 +159,7 @@ export default function App({ Component, pageProps }) {
                                     w={isMobile ? windowSize[0] : "100%"}
                                     py={isMobile ? "18px" : "46px"}
                                     bg={"white"}
+                                    minH={"80vh"}
                                 >
                                     <Component {...pageProps} />
                                 </Box>
@@ -198,12 +198,22 @@ const Footer = () => {
                     <Heading size={"sm"} color={"white"}>
                         Mike Smith Aviation
                     </Heading>
-                    <Text fontSize={12} color={"white"}>
-                        (707) 345-6526
-                    </Text>
-                    <Text fontSize={12} color={"white"}>
-                        team@mikesmithaviation.com
-                    </Text>
+                    <Link
+                        href={"tel:7073456526"}
+                        _hover={{ color: "gray.600" }}
+                    >
+                        <Text fontSize={12} color={"white"}>
+                            (707) 345-6526
+                        </Text>
+                    </Link>
+                    <Link
+                        href={"mailto:team@mikesmithaviation.com"}
+                        _hover={{ color: "gray.600" }}
+                    >
+                        <Text fontSize={12} color={"white"}>
+                            team@mikesmithaviation.com
+                        </Text>
+                    </Link>
                 </VStack>
                 <Box alignItems={"start"} w={"full"}>
                     <HStack w={"160px"}>
@@ -300,19 +310,24 @@ const Footer = () => {
                 </Box>
                 <HStack justify={"start"} w={"full"}>
                     <Icon as={MdLocationPin} color={"white"} boxSize={"24px"} />
-                    <VStack alignItems={"start"}>
-                        <Text fontSize={12} color={"white"} mb={-2}>
-                            Napa County Airport, 2030 Airport Rd
-                        </Text>
-                        <Text fontSize={12} color={"white"}>
-                            Napa, CA 94558
-                        </Text>
-                    </VStack>
+                    <Link
+                        href={"https://goo.gl/maps/cSuiadu43NMjYeBs7"}
+                        target={"_blank"}
+                    >
+                        <VStack alignItems={"start"}>
+                            <Text fontSize={12} color={"white"} mb={-2}>
+                                Napa County Airport, 2030 Airport Rd
+                            </Text>
+                            <Text fontSize={12} color={"white"}>
+                                Napa, CA 94558
+                            </Text>
+                        </VStack>
+                    </Link>
                 </HStack>
             </Stack>
             <Divider my={6} size={"lg"} />
             <HStack alignItems={"center"} justify={"space-between"} w={"full"}>
-                <HStack spacing={0} alignItems={"end"}>
+                <HStack spacing={4} alignItems={"end"}>
                     <MikeSmithLogo color={"white"} />
                     {!isMobile && (
                         <Text color={"white"} fontSize={12}>

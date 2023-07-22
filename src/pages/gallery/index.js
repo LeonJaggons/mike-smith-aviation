@@ -6,18 +6,25 @@ import {
     Image,
     Modal,
     useDisclosure,
+    HStack,
     ModalOverlay,
     ModalContent,
     ModalBody,
     Heading,
     VStack,
     Text,
+    Button,
+    Icon,
+    Input,
+    Textarea,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { MdUpload } from "react-icons/md";
 import { useSelector } from "react-redux";
 
 function index() {
     const [photos, setPhotos] = useState(null);
+    const isSignedIn = useSelector((state) => state.app.isSignedIn);
     const loadAllPhotos = async () => {
         const allPhotos = await getAllPhotos();
         setPhotos([...allPhotos]);
@@ -39,11 +46,112 @@ function index() {
                 get inspired to embark on your own aerial adventures with Mike
                 Smith Aviation!
             </Text>
+            {isSignedIn && <UploadPhotoButton />}
             <PhotoGallery photos={photos} />
         </VStack>
     );
 }
 
+const UploadPhotoButton = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    return (
+        <>
+            <Button
+                w={"full"}
+                leftIcon={<Icon as={MdUpload} />}
+                onClick={onOpen}
+            >
+                Upload Photo
+            </Button>
+            <Modal isOpen={isOpen} onClose={onClose} isCentered>
+                <ModalOverlay></ModalOverlay>
+                <ModalContent>
+                    <ModalBody>
+                        <ImageUpload />
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+        </>
+    );
+};
+
+const ImageUpload = () => {
+    const inputRef = useRef();
+    const [file, setFile] = useState();
+    const [fileURL, setFileURL] = useState();
+    const [fileType, setFileType] = useState();
+    const handleClick = () => {
+        inputRef.current && inputRef.current.click();
+    };
+    const handleFileSelected = (e) => {
+        const files = Array.from(e.target.files);
+        setFile(files[0]);
+        setFileURL(URL.createObjectURL(files[0]));
+        const fileName = files[0].name;
+        const fileType = fileName
+            .substring(fileName.lastIndexOf(".") + 1)
+            .toLowerCase();
+        setFileType(fileType);
+    };
+    return (
+        <>
+            {fileURL ? (
+                <VStack w={"full"} py={4} spacing={4}>
+                    <Image src={fileURL} w={"full"}></Image>
+                    <TextInput label={"Name"} />
+                    <TextInput area label={"Description"} />
+                    <Button w={"full"} colorScheme={"blue"} borderRadius={0}>
+                        Submit for Approval
+                    </Button>
+                </VStack>
+            ) : (
+                <Button w={"full"} onClick={handleClick}>
+                    Upload an image...
+                </Button>
+            )}
+            <Input
+                onChange={handleFileSelected}
+                ref={inputRef}
+                display={"none"}
+                type={"file"}
+            />
+        </>
+    );
+};
+
+const TextInput = ({ label, block, area, required, value, flex, onChange }) => {
+    return (
+        <VStack
+            w={"full"}
+            alignItems={"flex-start"}
+            flex={(block || flex) && 1}
+            spacing={2}
+        >
+            <HStack align={"center"} spacing={"4px"}>
+                <Heading size={"xs"}>{label}</Heading>
+                <Heading size={"xs"} color={"red.400"}>
+                    {required && "*"}
+                </Heading>
+            </HStack>
+            {area ? (
+                <Textarea
+                    onChange={onChange}
+                    size={"sm"}
+                    rows={5}
+                    resize={"none"}
+                    borderRadius={0}
+                />
+            ) : (
+                <Input
+                    size={"sm"}
+                    onChange={onChange}
+                    borderRadius={0}
+                    value={value && value}
+                />
+            )}
+        </VStack>
+    );
+};
 const PhotoGallery = ({ photos }) => {
     const [img, setImg] = useState(null);
     const isMobile = useSelector((state) => state.app.isMobile);

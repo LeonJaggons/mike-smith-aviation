@@ -159,6 +159,5 @@ export const getDocumentHistory = async () => {
             docName: docInfo.originalFileName,
         };
     });
-    console.log(docHist);
     return Promise.all(docHist);
 };

@@ -15,7 +15,6 @@ import { useSelector } from "react-redux";
 
 function index() {
     const isMobile = useSelector((state) => state.app.isMobile);
-    console.log(isMobile, "MOBILE");
     return (
         <Box my={12}>
             <Stack

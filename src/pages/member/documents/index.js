@@ -508,7 +508,6 @@ const TextInput = ({ label, area, onChange }) => {
 
 const DocumentGallery = ({ isExpired }) => {
     const documents = useSelector((state) => state.app.documents);
-    console.log(documents);
     return (
         <SimpleGrid columns={[1, 2, 2, 3]} w={"full"} spacing={2}>
             {documents.map((d) => (
@@ -748,7 +747,6 @@ const DetailButton = ({ doc, iconOnly }) => {
                                     }
                                 />
                             )}
-                            {console.log(doc)}
                             {doc && (
                                 <DetailLine
                                     label={"Created at"}
