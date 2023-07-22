@@ -234,6 +234,10 @@ export const NavBar = () => {
                                 color={fontColor}
                                 subItems={[
                                     {
+                                        label: "Leads",
+                                        href: "/member/leads",
+                                    },
+                                    {
                                         label: "Appointments",
                                         href: "/member/appointments",
                                     },

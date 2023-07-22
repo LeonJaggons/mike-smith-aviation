@@ -207,7 +207,7 @@ const Footer = () => {
                         </Text>
                     </Link>
                     <Link
-                        href={"mailto:team@mikesmithaviation.com"}
+                        href={":team@mikesmithaviation.com"}
                         _hover={{ color: "gray.600" }}
                     >
                         <Text fontSize={12} color={"white"}>
