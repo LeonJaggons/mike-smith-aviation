@@ -3,6 +3,7 @@ const appState = {
     isSignedIn: false,
     user: null,
     documents: [],
+    leads: [],
     isMobile: false,
 };
 

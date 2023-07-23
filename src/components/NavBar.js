@@ -110,7 +110,7 @@ export const NavBar = () => {
     useEffect(() => {
         setBorderWidth(0);
         if (router.pathname.split("/").includes("member")) {
-            setFontColor("gray.900");
+            setFontColor("gray.800");
             setBg("white");
             // setFontColor(router.pathname === "/" ? "white" : "black");
         } else {
@@ -130,10 +130,10 @@ export const NavBar = () => {
             flexWrap={"nowrap"}
             // style={{ WebkitBackfaceVisibility: "hidden" }}
             borderBottomWidth={borderWidth}
-            shadow={"sm"}
+            shadow={"md"}
             alignItems={"center"}
             bg={bg}
-            px={"10%"}
+            px={"5%"}
             // justify={"space-between"}
             zIndex={999}
         >
@@ -157,7 +157,7 @@ export const NavBar = () => {
             )}
             {!isMobile ? (
                 <VStack align={"end"} spacing={4} flex={1}>
-                    <HStack spacing={"0px"}>
+                    <HStack spacing={"2px"}>
                         <SocialBar fontColor={fontColor} />
                         <SignInButton fontColor={fontColor} />
                         {isSignedIn && user.adminRole >= 4 ? (
@@ -322,12 +322,13 @@ const MobileNavItem = ({ children, href, close }) => {
     );
 };
 export const SocialBar = ({ fontColor }) => {
+    const size = "20px";
     return (
         <>
             <IconButton
                 color={fontColor}
                 variant={"link"}
-                icon={<Icon as={FaFacebook} />}
+                icon={<Icon as={FaFacebook} boxSize={size} />}
                 as={Link}
                 href={"https://www.facebook.com/mikesmithaviation/"}
                 target={"_blank"}
@@ -335,7 +336,7 @@ export const SocialBar = ({ fontColor }) => {
             <IconButton
                 color={fontColor}
                 variant={"link"}
-                icon={<Icon as={FaInstagram} />}
+                icon={<Icon as={FaInstagram} boxSize={size} />}
                 as={Link}
                 href={"https://www.instagram.com/mikesmithaviation/?hl=en"}
                 target={"_blank"}
@@ -344,6 +345,7 @@ export const SocialBar = ({ fontColor }) => {
                 color={fontColor}
                 variant={"link"}
                 icon={<Icon as={FaEnvelope} />}
+                boxSize={size}
                 as={Link}
                 href={"/contact"}
             />
@@ -364,7 +366,7 @@ const UserAvatar = () => {
                     variant={"link"}
                     icon={
                         <Avatar
-                            size={"sm"}
+                            boxSize={"40px"}
                             name={
                                 user.profileImg
                                     ? user.profileImg
@@ -592,7 +594,10 @@ const SignInButton = ({ fontColor }) => {
                 onClick={isSignedIn ? handleSignOut : onOpen}
             >
                 <HStack>
-                    <Icon as={isSignedIn ? MdLogout : MdLogin} />
+                    <Icon
+                        as={isSignedIn ? MdLogout : MdLogin}
+                        boxSize={"20px"}
+                    />
                     {/* <Text>Sign {isSignedIn ? "out" : "in"}</Text> */}
                 </HStack>
                 <SignInModal isOpen={isOpen} onClose={onClose} />

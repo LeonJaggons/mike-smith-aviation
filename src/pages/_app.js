@@ -90,38 +90,39 @@ export default function App({ Component, pageProps }) {
 
     const covers = {
         "/": {
-            src: "/mike-cover-2.jpg",
+            src: "/mike-cover.mp4",
+            isVideo: true,
             // title: "CONTACT US",
             // sub: "Connecting You with the Sky, Get in Touch Today!",
         },
         "/contact": {
             src: "/contact.jpg",
-            title: "CONTACT US",
+            title: "Contact Us",
             sub: "Connecting You with the Sky, Get in Touch Today!",
         },
         "/mission": {
             src: "/mission.jpg",
-            title: "MISSION STATEMENT",
+            title: "Mission Statement",
             sub: "Our Vision, Your Success: Embracing Excellence and Safety in Aviation",
         },
         "/fleet": {
             src: "/fleet.jpg",
-            title: "OUR FLEET",
+            title: "Our Fleet",
             sub: "Precision in the Air and Ground",
         },
         "/licenses": {
             src: "/licenses.jpg",
-            title: "LICENSES & RATINGS",
+            title: "Licenses & Ratings",
             sub: "Empowering Your Aviation Aspirations",
         },
         "/learn": {
             src: "/learn.jpg",
-            title: "LEARN TO FLY",
+            title: "Learn to Fly",
             sub: "Take Flight with Confidence",
         },
         "/gallery": {
             src: "/gallery.jpg",
-            title: "GALLERY",
+            title: "Gallery",
             sub: "Our Flight School's Soaring Journey",
         },
     };
@@ -155,13 +156,22 @@ export default function App({ Component, pageProps }) {
                             {router.pathname !== "/" && router.pathname ? (
                                 <Box
                                     flex={1}
-                                    px={"10%"}
+                                    p={"5%"}
+                                    py={"2%"}
                                     w={isMobile ? windowSize[0] : "100%"}
-                                    py={isMobile ? "18px" : "46px"}
-                                    bg={"white"}
+                                    bg={"gray.50"}
                                     minH={"80vh"}
                                 >
-                                    <Component {...pageProps} />
+                                    <Box
+                                        // py={isMobile ? "18px" : "32px"}
+                                        w={"full"}
+                                        shadow={"2xl"}
+                                        p={12}
+                                        bg={"white"}
+                                        h={"full"}
+                                    >
+                                        <Component {...pageProps} />
+                                    </Box>
                                 </Box>
                             ) : (
                                 <Component {...pageProps} />
@@ -181,7 +191,7 @@ const Footer = () => {
         <Box
             w={"full"}
             bg={"gray.900"}
-            px={"10%"}
+            px={"5%"}
             py={isMobile ? 6 : 12}
             pb={6}
             borderTopWidth={2}

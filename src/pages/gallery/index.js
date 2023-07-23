@@ -18,6 +18,7 @@ import {
     Input,
     Textarea,
 } from "@chakra-ui/react";
+import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import { MdUpload } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -32,23 +33,38 @@ function index() {
     useEffect(() => {
         loadAllPhotos();
     }, []);
-    return !photos ? (
-        <Center h={"full"} w={"full"}>
-            <Spinner />
-        </Center>
-    ) : (
-        <VStack spacing={4}>
-            <Text>
-                Step into the captivating world of aviation through our gallery.
-                Here, you can witness the breathtaking moments captured during
-                our flight training sessions, scenic flights, and thrilling
-                aviation events. Immerse yourself in the beauty of flight and
-                get inspired to embark on your own aerial adventures with Mike
-                Smith Aviation!
-            </Text>
-            {isSignedIn && <UploadPhotoButton />}
-            <PhotoGallery photos={photos} />
-        </VStack>
+    return (
+        <>
+            <Head>
+                <title>Gallery - Mike Smith Aviation</title>
+                <meta
+                    name="description"
+                    content="Journey through the Skies: Explore our Captivating Gallery at Mike Smith Aviation | Napa, CA Flight School Adventures"
+                />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Heading size={"lg"} mb={4}>
+                Gallery
+            </Heading>
+            {!photos ? (
+                <Center h={"full"} w={"full"}>
+                    <Spinner />
+                </Center>
+            ) : (
+                <VStack spacing={4}>
+                    <Text>
+                        Step into the captivating world of aviation through our
+                        gallery. Here, you can witness the breathtaking moments
+                        captured during our flight training sessions, scenic
+                        flights, and thrilling aviation events. Immerse yourself
+                        in the beauty of flight and get inspired to embark on
+                        your own aerial adventures with Mike Smith Aviation!
+                    </Text>
+                    {isSignedIn && <UploadPhotoButton />}
+                    <PhotoGallery photos={photos} />
+                </VStack>
+            )}
+        </>
     );
 }
 
