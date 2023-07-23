@@ -35,7 +35,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 />
             )}
             <VStack
-                bottom={"300px"}
+                bottom={"340px"}
                 alignSelf={"center"}
                 alignItems={"center"}
                 position={"absolute"}
