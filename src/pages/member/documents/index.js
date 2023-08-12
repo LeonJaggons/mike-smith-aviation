@@ -630,9 +630,6 @@ const DocumentMenu = ({ download, doc, isExpired }) => {
                             <DocumentMenuButton icon={MdEdit}>
                                 Rename
                             </DocumentMenuButton>
-                            <DocumentMenuButton icon={MdEditNote}>
-                                Edit details
-                            </DocumentMenuButton>
                             <Divider my={1} />
                             <DeleteButton doc={doc} />
                         </>

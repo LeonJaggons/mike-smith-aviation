@@ -76,6 +76,7 @@ const UploadPhotoButton = () => {
                 w={"full"}
                 leftIcon={<Icon as={MdUpload} />}
                 onClick={onOpen}
+                h={"60px"}
             >
                 Upload Photo
             </Button>
