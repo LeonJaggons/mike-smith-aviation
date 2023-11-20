@@ -1,4 +1,12 @@
-import { Box, Button, Heading, Image, Link, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Button,
+    Center,
+    Heading,
+    Image,
+    Link,
+    VStack,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -7,17 +15,20 @@ function PageImageCover({ src, title, sub, isVideo }) {
     const isMobile = useSelector((state) => state.app.isMobile);
     const router = useRouter();
     return (
-        <Box position={"relative"}>
+        <Box
+            position={"relative"}
+            h={isVideo ? "100vh" : "calc(65vh - 88px)"}
+            mt={!isVideo && "88px"}
+        >
             {!isVideo ? (
                 <Image
                     userSelect={"none"}
                     draggable={false}
                     w={"100%"}
-                    h={"100vh"}
+                    h={"100%"}
                     src={src}
                     objectFit={"cover"}
-                    // objectPosition={"top"}
-                    filter={"brightness(40%)"}
+                    filter={"grayscale(.1) brightness(40%)"}
                 ></Image>
             ) : (
                 <Box
@@ -29,27 +40,33 @@ function PageImageCover({ src, title, sub, isVideo }) {
                     sx={{
                         aspectRatio: 16 / 9,
                     }}
+                    loop
                     autoPlay={"autoplay"}
                     muted
-                    filter={"brightness(30%)"}
+                    filter={"brightness(40%)"}
                 />
             )}
-            <VStack
-                bottom={"340px"}
+            <Center
                 alignSelf={"center"}
                 alignItems={"center"}
                 position={"absolute"}
                 spacing={4}
+                top={0}
+                left={0}
                 w={"full"}
+                h={"full"}
+                flexDirection={"column"}
                 p={6}
             >
                 <Heading
-                    size={"4xl"}
+                    size={"3xl"}
                     color={"white"}
-                    mb={2}
-                    letterSpacing={-1}
-                    fontWeight={"extrabold"}
+                    mb={8}
+                    letterSpacing={1}
+                    fontWeight={900}
+                    fontFamily={"heading"}
                     textAlign={"center"}
+                    textTransform={"uppercase"}
                 >
                     {title}
                 </Heading>
@@ -78,7 +95,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                         FIND OUT MORE
                     </Button>
                 )} */}
-            </VStack>
+            </Center>
         </Box>
     );
 }

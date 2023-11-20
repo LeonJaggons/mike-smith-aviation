@@ -1,6 +1,7 @@
 import Providers from "@/components/Providers";
 // import "@/styles/globals.css";
-import { MikeSmithLogo, NavBar, SocialBar } from "../components/NavBar";
+import { MikeSmithLogo, SocialBar } from "../components/NavBar";
+import { NavBar } from "@/components/NavBar.1";
 import {
     Box,
     Divider,
@@ -10,6 +11,7 @@ import {
     Stack,
     Text,
     VStack,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +25,7 @@ import { MdLocationPin } from "react-icons/md";
 import Head from "next/head";
 import { useSelector } from "react-redux";
 import { Link } from "@chakra-ui/next-js";
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
@@ -90,7 +93,7 @@ export default function App({ Component, pageProps }) {
 
     const covers = {
         "/": {
-            src: "/mike-cover.mp4",
+            src: "/mike-cover-cut.mp4",
             isVideo: true,
             // title: "CONTACT US",
             // sub: "Connecting You with the Sky, Get in Touch Today!",
@@ -156,22 +159,17 @@ export default function App({ Component, pageProps }) {
                             {router.pathname !== "/" && router.pathname ? (
                                 <Box
                                     flex={1}
-                                    p={"5%"}
-                                    py={"2%"}
+                                    p={"10%"}
+                                    py={
+                                        router.pathname.includes("member")
+                                            ? "60px"
+                                            : "34px"
+                                    }
+                                    bg={"white"}
                                     w={isMobile ? windowSize[0] : "100%"}
-                                    bg={"gray.50"}
                                     minH={"80vh"}
                                 >
-                                    <Box
-                                        // py={isMobile ? "18px" : "32px"}
-                                        w={"full"}
-                                        shadow={"2xl"}
-                                        p={12}
-                                        bg={"white"}
-                                        h={"full"}
-                                    >
-                                        <Component {...pageProps} />
-                                    </Box>
+                                    <Component {...pageProps} />
                                 </Box>
                             ) : (
                                 <Component {...pageProps} />
@@ -187,6 +185,7 @@ export default function App({ Component, pageProps }) {
 
 const Footer = () => {
     const isMobile = useSelector((state) => state.app.isMobile);
+    const [isLargerThan800] = useMediaQuery("(min-width: 1200px)");
     return (
         <Box
             w={"full"}
@@ -198,10 +197,12 @@ const Footer = () => {
             borderTopColor={"rgba(0,0,0,.2)"}
         >
             <Stack
-                direction={isMobile ? "column" : "row"}
-                alignItems={isMobile ? "center" : "start"}
-                justify={isMobile ? "center" : "space-between"}
-                spacing={isMobile && 8}
+                direction={isMobile || !isLargerThan800 ? "column" : "row"}
+                alignItems={isMobile || !isLargerThan800 ? "center" : "start"}
+                justify={
+                    isMobile || !isLargerThan800 ? "center" : "space-between"
+                }
+                spacing={isMobile || (!isLargerThan800 && 8)}
                 w={"full"}
             >
                 <VStack align={"start"} spacing={2} w={"full"}>

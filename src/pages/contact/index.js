@@ -10,6 +10,8 @@ import {
     Textarea,
     VStack,
     Stack,
+    Divider,
+    useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import PageImageCover from "../../components/PageImageCover";
@@ -19,6 +21,7 @@ import Head from "next/head";
 
 function index() {
     const isMobile = useSelector((state) => state.app.isMobile);
+    const [isLargerThan800] = useMediaQuery("(min-width: 1000px)");
     return (
         <>
             <Head>
@@ -30,18 +33,35 @@ function index() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box>
+                <Heading>Chat with our team</Heading>
+                <Divider my={6} />
                 <Stack
                     alignItems={"start"}
-                    spacing={8}
-                    direction={isMobile ? "column" : "row"}
+                    spacing={12}
+                    direction={isMobile || !isLargerThan800 ? "column" : "row"}
+                    w={"full"}
                 >
                     <ContactForm />
-                    {/* <Image
+                    <VStack h={"full"} flex={3}>
+                        <Box flex={1}></Box>
+                        <Box w={"full"} borderRadius={5} overflow={0}>
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3134.5922315448574!2d-122.27431399999999!3d38.2193627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808509062c81bd57%3A0xcc07e858616877c5!2sMike%20Smith%20Aviation%20Napa!5e0!3m2!1sen!2sus!4v1700454240246!5m2!1sen!2sus"
+                                width="100%"
+                                height={320}
+                                style={{ border: 0, borderRadius: 5 }}
+                                allowFullScreen=""
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
+                        </Box>
+                    </VStack>
+                </Stack>
+                {/* <Image
                     src={"/contact_1.jpg"}
                     w={isMobile ? "100%" : "40%"}
                     borderRadius={5}
                 /> */}
-                </Stack>
             </Box>
         </>
     );
@@ -78,17 +98,8 @@ const ContactForm = () => {
         console.table(msg);
     }, [msg]);
     return (
-        <Box
-            flex={1}
-            borderWidth={1}
-            p={8}
-            shadow={"md"}
-            borderColor={"gray.100"}
-        >
-            <Heading fontWeight={700} size={"lg"} mb={2}>
-                Chat with our team
-            </Heading>
-            <Text color={"gray.400"} mb={6} fontSize={"sm"}>
+        <Box flex={2}>
+            <Text mb={6}>
                 Need help with something? Want more information about our
                 programs? Get in touch with our team and we'll get back to you
                 very soon.
@@ -134,6 +145,7 @@ const TextInput = ({ label, block, area, required, onChange, type }) => {
             {area ? (
                 <Textarea
                     size={"sm"}
+                    variant={"filled"}
                     rows={5}
                     resize={"none"}
                     borderRadius={0}
@@ -141,7 +153,8 @@ const TextInput = ({ label, block, area, required, onChange, type }) => {
                 />
             ) : (
                 <Input
-                    size={"sm"}
+                    size={"md"}
+                    variant={"filled"}
                     type={type ? type : "text"}
                     borderRadius={0}
                     onChange={onChange}

@@ -17,6 +17,7 @@ import {
     Icon,
     Input,
     Textarea,
+    Divider,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
@@ -43,9 +44,8 @@ function index() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Heading size={"lg"} mb={4}>
-                Gallery
-            </Heading>
+            <Heading mb={4}>Gallery</Heading>
+            <Divider my={6} />
             {!photos ? (
                 <Center h={"full"} w={"full"}>
                     <Spinner />
@@ -179,12 +179,12 @@ const PhotoGallery = ({ photos }) => {
     };
     return (
         <>
-            <LightBoxModal isOpen={isOpen} onClose={onClose} img={img} />
             <SimpleGrid columns={isMobile ? 3 : [2, 3, 4, 4]} spacing={2}>
                 {photos.map((p, i) => (
                     <GalleryImage key={p} openModal={openModal} src={p} />
                 ))}
             </SimpleGrid>
+            <LightBoxModal isOpen={isOpen} onClose={onClose} img={img} />
         </>
     );
 };
@@ -194,15 +194,12 @@ const LightBoxModal = ({ isOpen, onClose, img }) => {
         <Modal isOpen={isOpen} onClose={onClose} isCentered size={"4xl"}>
             <ModalOverlay />
             <ModalContent bg={"transparent"} shadow={0}>
-                <ModalBody p={0} w={"full"} shadow={0}>
+                <ModalBody p={0} shadow={0} maxH={"80vh"}>
                     <Image
                         src={img}
+                        h={"full"}
                         borderRadius={5}
-                        minW={"50vw"}
-                        maxW={"80vw"}
-                        maxH={"80vh"}
                         objectFit={"cover"}
-                        h={null}
                     />
                 </ModalBody>
             </ModalContent>
@@ -217,18 +214,20 @@ const GalleryImage = ({ src, openModal, index }) => {
         openModal(src);
     };
     return (
-        <Image
-            onLoad={() => setLoading(false)}
-            onMouseDown={openImage}
-            aspectRatio={isMobile && 1}
-            borderRadius={3}
-            src={src}
-            h={isMobile ? "full" : "220px"}
-            w={"full"}
-            objectFit={"cover"}
-            cursor={"pointer"}
-            loading={loading}
-        />
+        <>
+            <Image
+                onLoad={() => setLoading(false)}
+                onMouseDown={openImage}
+                aspectRatio={isMobile && 1}
+                borderRadius={3}
+                src={src}
+                h={isMobile ? "full" : "220px"}
+                w={"full"}
+                objectFit={"cover"}
+                cursor={"pointer"}
+                loading={loading}
+            />
+        </>
     );
 };
 export default index;

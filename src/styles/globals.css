@@ -1,13 +1,14 @@
 * {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
 }
 
-html, body{
-  margin:0; 
+html,
+body {
+    margin: 0;
 
-  padding: 0;
+    padding: 0;
     overscroll-behavior-y: none;
     overscroll-behavior-x: none;
 }
@@ -15,25 +16,31 @@ html, body{
 body {
     position: fixed;
     width: 100%;
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    color: rgb(var(--foreground-rgb));
+    background: linear-gradient(
+            to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))
+        )
+        rgb(var(--background-start-rgb));
     overflow: auto;
     overscroll-behavior-y: none;
     overscroll-behavior-x: none;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+    html {
+        color-scheme: dark;
+    }
+}
+
+.chakra-text {
+    line-height: 1.8;
+    font-size: 17px;
+    color: black;
 }

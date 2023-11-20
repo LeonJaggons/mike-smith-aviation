@@ -41,6 +41,7 @@ export default function Home() {
                             letterSpacing={"-2px"}
                             fontWeight={"extrabold"}
                             textAlign={"center"}
+                            fontFamily={"logo"}
                         >
                             Mike Smith Aviation
                         </Heading>
