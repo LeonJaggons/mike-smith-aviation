@@ -60,11 +60,12 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 w={"full"}
                 h={"full"}
                 flexDirection={"column"}
-                px={"20%"}
+            px={["10%","10%","20%"]}
                 pb={12}
+                textAlign={"center"}
             >
                 <Heading
-                    size={"3xl"}
+                    size={isMobile ? "xl" : ["3xl"]}
                     color={"white"}
                     letterSpacing={1}
                     fontWeight={900}
@@ -78,9 +79,10 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 <Heading
                     textAlign={"center"}
                     color={"white"}
-                    size={"md"}
+                    size={"xs"}
                     fontFamily={"fancy"}
                     mb={0}
+                    lineHeight={1.8}
                 >
                     {sub}
                 </Heading>

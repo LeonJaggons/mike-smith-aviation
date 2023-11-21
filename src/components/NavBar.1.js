@@ -84,7 +84,7 @@ export const NavBar = () => {
             shadow={shadow}
             alignItems={"center"}
             bg={bg}
-            px={"20%"}
+            px={["10%","10%","20%"]}
             zIndex={999}
         >
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
