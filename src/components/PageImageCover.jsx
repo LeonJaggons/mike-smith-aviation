@@ -51,7 +51,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
             )}
             <VStack
                 alignSelf={"center"}
-                alignItems={"flex-start"}
+                alignItems={["center", "center","flex-start"]}
                 justify={"flex-end"}
                 position={"absolute"}
                 spacing={4}
