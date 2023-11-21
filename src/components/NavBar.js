@@ -100,13 +100,13 @@ export const MobileNavBar = ({ isOpen, onClose }) => {
                         <MobileNavItem href={"/mission"} close={onClose}>
                             Mission Statement
                         </MobileNavItem>
-                        <MobileNavItem href={"/learn"} close={onClose}>
+                        <MobileNavItem href={"/info/learn"} close={onClose}>
                             Learn to Fly
                         </MobileNavItem>
-                        <MobileNavItem href={"/fleet"} close={onClose}>
+                        <MobileNavItem href={"/info/fleet"} close={onClose}>
                             Our Fleet
                         </MobileNavItem>
-                        <MobileNavItem href={"/licenses"} close={onClose}>
+                        <MobileNavItem href={"/info/licenses"} close={onClose}>
                             Licenses & Ratings
                         </MobileNavItem>
                         <MobileNavItem href={"/gallery"} close={onClose}>
@@ -402,12 +402,12 @@ export const SignInButton = ({ fontColor }) => {
                 color={fontColor}
                 onClick={isSignedIn ? handleSignOut : onOpen}
             >
-                <HStack>
+                <HStack >
                     <Icon
                         as={isSignedIn ? MdLogout : MdLogin}
                         boxSize={"20px"}
                     />
-                    {/* <Text>Sign {isSignedIn ? "out" : "in"}</Text> */}
+                    <Text color={fontColor}>Sign {isSignedIn ? "out" : "in"}</Text>
                 </HStack>
                 <SignInModal isOpen={isOpen} onClose={onClose} />
             </NavItem>

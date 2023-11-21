@@ -1,7 +1,10 @@
 import Providers from "@/components/Providers";
-// import "@/styles/globals.css";
-import { MikeSmithLogo, SocialBar } from "../components/NavBar";
 import { NavBar } from "@/components/NavBar.1";
+import { auth } from "@/firebase/firebase_init";
+import { getUserByID } from "@/firebase/firestore_helpers";
+import store from "@/redux/store";
+import "@/styles/globals.css";
+import { Link } from "@chakra-ui/next-js";
 import {
     Box,
     Divider,
@@ -13,19 +16,14 @@ import {
     VStack,
     useMediaQuery,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { SizeMe } from "react-sizeme";
-import PageImageCover from "../components/PageImageCover";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "@/firebase/firebase_init";
-import store from "@/redux/store";
-import { getUserByID } from "@/firebase/firestore_helpers";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { MdLocationPin } from "react-icons/md";
-import Head from "next/head";
 import { useSelector } from "react-redux";
-import { Link } from "@chakra-ui/next-js";
-import "@/styles/globals.css";
+import { SizeMe } from "react-sizeme";
+import { MikeSmithLogo, SocialBar } from "../components/NavBar";
+import PageImageCover from "../components/PageImageCover";
 
 export default function App({ Component, pageProps }) {
     const [isLanding, setIsLanding] = useState(false);
@@ -108,17 +106,17 @@ export default function App({ Component, pageProps }) {
             title: "Mission Statement",
             sub: "Our Vision, Your Success: Embracing Excellence and Safety in Aviation",
         },
-        "/fleet": {
+        "/info/fleet": {
             src: "/fleet.jpg",
             title: "Our Fleet",
             sub: "Precision in the Air and Ground",
         },
-        "/licenses": {
+        "/info/licenses": {
             src: "/licenses.jpg",
             title: "Licenses & Ratings",
             sub: "Empowering Your Aviation Aspirations",
         },
-        "/learn": {
+        "/info/learn": {
             src: "/learn.jpg",
             title: "Learn to Fly",
             sub: "Take Flight with Confidence",
@@ -159,11 +157,11 @@ export default function App({ Component, pageProps }) {
                             {router.pathname !== "/" && router.pathname ? (
                                 <Box
                                     flex={1}
-                                    p={"10%"}
+                                    p={"20%"}
                                     py={
                                         router.pathname.includes("member")
                                             ? "60px"
-                                            : "34px"
+                                            : "44px"
                                     }
                                     bg={"white"}
                                     w={isMobile ? windowSize[0] : "100%"}
@@ -190,7 +188,7 @@ const Footer = () => {
         <Box
             w={"full"}
             bg={"gray.900"}
-            px={"5%"}
+            px={"10%"}
             py={isMobile ? 6 : 12}
             pb={6}
             borderTopWidth={2}

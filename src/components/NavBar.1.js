@@ -39,8 +39,7 @@ export const NavBar = () => {
         const windowHeight = windowSize.current[0];
         const scaledHeight = windowHeight / 4;
         if (
-            router.pathname.split("/").includes("member") ||
-            router.pathname.split("/")[1] !== ""
+            router.pathname.split("/").includes("member") 
         ) {
             setFontColor("#171923");
             setBg("white");
@@ -52,14 +51,14 @@ export const NavBar = () => {
             setShadow(latest <= scaledHeight ? "sm" : 0);
             setFontColor(latest >= scaledHeight ? "#171923" : "white");
             setIsBelowImage(latest >= windowHeight);
+            setShadow(latest >= scaledHeight ? "sm" : "none");
         }
     });
 
     useEffect(() => {
         setBorderWidth(0);
         if (
-            router.pathname.split("/").includes("member") ||
-            router.pathname.split("/")[1] !== ""
+            router.pathname.split("/").includes("member") 
         ) {
             setFontColor("#171923");
             setBg("white");
@@ -82,10 +81,10 @@ export const NavBar = () => {
             p={4}
             flexWrap={"nowrap"}
             borderBottomWidth={borderWidth}
-            shadow={"md"}
+            shadow={shadow}
             alignItems={"center"}
             bg={bg}
-            px={"10%"}
+            px={"20%"}
             zIndex={999}
         >
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
@@ -110,7 +109,6 @@ export const NavBar = () => {
                 <VStack align={"end"} spacing={4} flex={1}>
                     <HStack spacing={"2px"}>
                         <SocialBar fontColor={fontColor} />
-                        <SignInButton fontColor={fontColor} />
                         {/* {isSignedIn && user.adminRole >= 4 ? (
                         <Tag
                             colorScheme={"gray"}
@@ -134,7 +132,7 @@ export const NavBar = () => {
                     )} */}
                         {isSignedIn && <UserAvatar />}
                     </HStack>
-                    <HStack spacing={8} flex={1}>
+                    <HStack spacing={12} flex={1}>
                         <>
                             <NavItem color={fontColor} href={"/mission"}>
                                 Mission Statement
@@ -179,6 +177,7 @@ export const NavBar = () => {
                             <NavItem color={fontColor} href={"/contact"}>
                                 Contact Us
                             </NavItem>
+                        <SignInButton fontColor={fontColor} />
                         </>
                         {isSignedIn && (
                             <NavItem

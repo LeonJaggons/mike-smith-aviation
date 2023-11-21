@@ -17,8 +17,11 @@ function PageImageCover({ src, title, sub, isVideo }) {
     return (
         <Box
             position={"relative"}
-            h={isVideo ? "100vh" : "calc(65vh - 88px)"}
-            mt={!isVideo && "88px"}
+            w={"100vw"}
+            maxW={"100vw"}
+            overflowX={"hidden"}
+            h={isVideo ? "100vh" : "60vh"}
+            // mt={!isVideo && "88px"}
         >
             {!isVideo ? (
                 <Image
@@ -33,7 +36,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
             ) : (
                 <Box
                     as={"video"}
-                    w={"100%"}
+                    w={"100vw"}
                     h={"100vh"}
                     src={src}
                     objectFit={"cover"}
@@ -43,12 +46,13 @@ function PageImageCover({ src, title, sub, isVideo }) {
                     loop
                     autoPlay={"autoplay"}
                     muted
-                    filter={"brightness(40%)"}
+                    filter={"brightness(35%)"}
                 />
             )}
-            <Center
+            <VStack
                 alignSelf={"center"}
-                alignItems={"center"}
+                alignItems={"flex-start"}
+                justify={"flex-end"}
                 position={"absolute"}
                 spacing={4}
                 top={0}
@@ -56,25 +60,26 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 w={"full"}
                 h={"full"}
                 flexDirection={"column"}
-                p={6}
+                px={"20%"}
+                pb={12}
             >
                 <Heading
-                    size={"3xl"}
+                    size={"4xl"}
                     color={"white"}
-                    mb={8}
                     letterSpacing={1}
                     fontWeight={900}
                     fontFamily={"heading"}
                     textAlign={"center"}
                     textTransform={"uppercase"}
+                    mb={2}
                 >
                     {title}
                 </Heading>
                 <Heading
                     textAlign={"center"}
                     color={"white"}
-                    size={isMobile ? "sm" : "md"}
-                    fontFamily={"cursive"}
+                    size={"md"}
+                    fontFamily={"fancy"}
                     mb={0}
                 >
                     {sub}
@@ -95,7 +100,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                         FIND OUT MORE
                     </Button>
                 )} */}
-            </Center>
+            </VStack>
         </Box>
     );
 }

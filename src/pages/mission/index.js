@@ -26,14 +26,12 @@ function index() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Heading>Mission Statement</Heading>
-            <Divider my={6} />
             <Box>
                 <Stack
                     direction={
                         isMobile
                             ? "column-reverse"
-                            : ["column", "column", "row"]
+                            : ["column", "column", "column", "row"]
                     }
                     spacing={12}
                 >
