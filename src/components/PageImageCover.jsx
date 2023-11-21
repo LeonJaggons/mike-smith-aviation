@@ -31,7 +31,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                     h={"100%"}
                     src={src}
                     objectFit={"cover"}
-                    filter={"grayscale(.1) brightness(40%)"}
+                    filter={"grayscale(.3) brightness(30%)"}
                 ></Image>
             ) : (
                 <Box
@@ -46,7 +46,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                     loop
                     autoPlay={"autoplay"}
                     muted
-                    filter={"brightness(35%)"}
+                    filter={"brightness(55%)"}
                 />
             )}
             <VStack
@@ -64,7 +64,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 pb={12}
             >
                 <Heading
-                    size={"4xl"}
+                    size={"3xl"}
                     color={"white"}
                     letterSpacing={1}
                     fontWeight={900}
