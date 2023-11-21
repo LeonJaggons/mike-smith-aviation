@@ -1,4 +1,4 @@
-import { VStack, Heading, Text, Box } from "@chakra-ui/react";
+import { VStack, Heading, Text, Box, Divider } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 
@@ -13,8 +13,12 @@ function index() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+                <Box>
+
+                <Heading>Licenses & Ratings</Heading>
+                <Divider my={6}/>
+                </Box>
             <VStack alignItems={"start"} spacing={8}>
-                <Heading size={"lg"}>Licenses & Ratings</Heading>
 
                 <Text>
                     Whether you dream of flying recreationally or pursuing a
@@ -26,7 +30,7 @@ function index() {
                 </Text>
 
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Private Pilot License (PPL)
                     </Heading>
                     <Text>
@@ -44,7 +48,7 @@ function index() {
                 </Box>
 
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Instrument Rating (IR)
                     </Heading>
 
@@ -64,7 +68,7 @@ function index() {
                 </Box>
 
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Commercial Pilot License (CPL)
                     </Heading>
 
@@ -83,7 +87,7 @@ function index() {
                 </Box>
 
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Instrument Rating (IR) Certified Flight Instructor (CFI)
                         & Certified Flight Instructor Instrument (CFII)
                     </Heading>
@@ -103,7 +107,7 @@ function index() {
                 </Box>
 
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Airline Transport Pilot License (ATPL)
                     </Heading>
 
@@ -121,7 +125,7 @@ function index() {
                     </Text>
                 </Box>
                 <Box>
-                    <Heading mb={2} size={"md"}>
+                    <Heading mb={2} size={"lg"}>
                         Additional Ratings and Endorsements
                     </Heading>
 

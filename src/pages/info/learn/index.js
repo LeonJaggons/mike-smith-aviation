@@ -11,6 +11,9 @@ import {
     AccordionButton,
     AccordionIcon,
     AccordionPanel,
+    Image,
+    HStack,
+    Stack,
 } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
@@ -27,11 +30,14 @@ function index() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Box>
                 <Box w={"full"}>
                     <Heading>Learn to Fly</Heading>
                     <Divider my={6} />
                 </Box>
+            <Stack direction={["column", "column", "column", "row"]}  alignItems={"flex-start"} spacing={"36px"
+            }>
+
+            <Box flex={1}>
                 <VStack spacing={8} alignItems={"flex-start"}>
                     <Box>
                         <Text>
@@ -251,6 +257,15 @@ function index() {
                     </Box>
                 </VStack>
             </Box>
+            <VStack w={["full","full", "full", "30%"]} spacing={6}>
+                <Image src={"/learn4.jpg"} w={"full"}  borderRadius={3}/>
+                <Image src={"/learn1.jpeg"} w={"full"}  borderRadius={3}/>
+                <Image src={"/learn2.jpeg"} w={"full"}  borderRadius={3}/>
+                <Image src={"/learn3.jpeg"} w={"full"}  borderRadius={3}/>
+                <Image src={"/learn5.jpg"} w={"full"}  borderRadius={3}/>
+            </VStack>
+
+            </Stack>
         </>
     );
 }

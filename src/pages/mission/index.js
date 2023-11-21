@@ -27,6 +27,10 @@ function index() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box>
+                <Box w={"full"}>
+                    <Heading>Why Mike Smith Aviation</Heading>
+                    <Divider my={6} />
+                </Box>
                 <Stack
                     direction={
                         isMobile
@@ -59,12 +63,11 @@ function index() {
                             <Text>Mike Smith Aviation </Text>
                         </Box>
                     </Box>
-                    <Box w={isMobile ? "full" : ["full", "full", "30%"]}>
+                    <VStack w={isMobile ? "full" : ["full", "full", "30%"]}>
                         <Image
                             borderRadius={5}
-                            src={"/mission1.jpg"}
+                            src={"/mission2.jpg"}
                             w={"full"}
-                            h={"full"}
                             // flex={!isMobile && 1}
 
                             mb={2}
@@ -79,7 +82,7 @@ function index() {
 
                             objectFit={"cover"}
                         /> */}
-                    </Box>
+                    </VStack>
                 </Stack>
             </Box>
         </>

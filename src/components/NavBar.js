@@ -595,8 +595,8 @@ export const MikeSmithLogo = ({ color }) => {
     const isMobile = useSelector((state) => state.app.isMobile);
     const router = useRouter();
     return (
-        <Link href="/" display={"inline-flex"}>
-            {router.pathname !== "/" ? (
+        <Link href="/" display={"inline-flex"} textDecoration={"none !important"}>
+            {/* {router.pathname !== "/" ? (
                 <Image src={"/Mike Smith.png"} w={"80px"} objectFit={"cover"} />
             ) : (
                 <Center
@@ -611,7 +611,12 @@ export const MikeSmithLogo = ({ color }) => {
                         boxSize={"40px"}
                     />
                 </Center>
-            )}
+            )} */}
+            <Box color={color} transform={"scale(1.2,1)"} display={"flex"} flexFlow={"column nowrap"} textAlign={"end"}>
+                <Heading fontFamily={"logo"} fontWeight={900} mb={-2} fontSize={"26px"}>SMITH</Heading>
+                <Heading fontFamily={"logo"} fontSize={"100%"} mb={-1} fontWeight={"500"}>AVIATION</Heading>
+                <Heading fontFamily={"logo"} fontSize={"80%"} fontWeight={"normal"}>NAPA</Heading>
+            </Box>
         </Link>
     );
 };

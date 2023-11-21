@@ -44,7 +44,7 @@ function index() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Heading mb={4}>Gallery</Heading>
+            <Heading>Gallery</Heading>
             <Divider my={6} />
             {!photos ? (
                 <Center h={"full"} w={"full"}>
@@ -189,18 +189,30 @@ const PhotoGallery = ({ photos }) => {
     );
 };
 
-const LightBoxModal = ({ isOpen, onClose, img }) => {
+const LightBoxModal = ({ isOpen, onClose, img, photos }) => {
     return (
-        <Modal isOpen={isOpen} onClose={onClose} isCentered size={"4xl"}>
+        <Modal isOpen={isOpen} onClose={onClose} isCentered size={"full"}>
             <ModalOverlay />
-            <ModalContent bg={"transparent"} shadow={0}>
-                <ModalBody p={0} shadow={0} maxH={"80vh"}>
+            <ModalContent shadow={0}  bg={"transparent"} onClick={onClose}>
+                <ModalBody shadow={0} h={"full"} display={"flex"} flexFlow={"column nowrap"} >
+                    <Button onClick={onClose}>Close</Button>
+                    <HStack w={"full"} flex={1}>
+                        <Button onClick={e => e.stopPropagation()}>Prev</Button>
+
+                    <Center flex={1} h={"full"} >
+
                     <Image
+                        onClick={e => e.stopPropagation()}
                         src={img}
-                        h={"full"}
+                        h={"70vh"}
                         borderRadius={5}
                         objectFit={"cover"}
                     />
+                    </Center>
+                        <Button
+                        onClick={e => e.stopPropagation()}
+                        >Next</Button>
+                    </HStack>
                 </ModalBody>
             </ModalContent>
         </Modal>
