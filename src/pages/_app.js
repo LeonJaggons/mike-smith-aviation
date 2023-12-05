@@ -157,7 +157,7 @@ export default function App({ Component, pageProps }) {
                             {router.pathname !== "/" && router.pathname ? (
                                 <Box
                                     flex={1}
-            px={["10%","10%","20%"]}
+                                    px={["5%", "8%", "13%"]}
                                     py={
                                         router.pathname.includes("member")
                                             ? "60px"

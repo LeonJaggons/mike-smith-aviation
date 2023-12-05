@@ -38,9 +38,7 @@ export const NavBar = () => {
     useMotionValueEvent(scrollY, "change", (latest) => {
         const windowHeight = windowSize.current[0];
         const scaledHeight = windowHeight / 4;
-        if (
-            router.pathname.split("/").includes("member") 
-        ) {
+        if (router.pathname.split("/").includes("member")) {
             setFontColor("#171923");
             setBg("white");
             setBorderWidth(1);
@@ -57,9 +55,7 @@ export const NavBar = () => {
 
     useEffect(() => {
         setBorderWidth(0);
-        if (
-            router.pathname.split("/").includes("member") 
-        ) {
+        if (router.pathname.split("/").includes("member")) {
             setFontColor("#171923");
             setBg("white");
             // setFontColor(router.pathname === "/" ? "white" : "black");
@@ -84,7 +80,7 @@ export const NavBar = () => {
             shadow={shadow}
             alignItems={"center"}
             bg={bg}
-            px={["10%","10%","20%"]}
+            px={["5%", "8%", "13%"]}
             zIndex={999}
         >
             {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
@@ -109,27 +105,6 @@ export const NavBar = () => {
                 <VStack align={"end"} spacing={4} flex={1}>
                     <HStack spacing={"2px"}>
                         <SocialBar fontColor={fontColor} />
-                        {/* {isSignedIn && user.adminRole >= 4 ? (
-                        <Tag
-                            colorScheme={"gray"}
-                            fontWeight={700}
-                            borderRadius={0}
-                            ml={4}
-                        >
-                            Admin
-                        </Tag>
-                    ) : (
-                        isSignedIn && (
-                            <Tag
-                                ml={4}
-                                colorScheme={"blue"}
-                                fontWeight={700}
-                                borderRadius={0}
-                            >
-                                Member
-                            </Tag>
-                        )
-                    )} */}
                         {isSignedIn && <UserAvatar />}
                     </HStack>
                     <HStack spacing={12} flex={1}>
@@ -177,7 +152,7 @@ export const NavBar = () => {
                             <NavItem color={fontColor} href={"/contact"}>
                                 Contact Us
                             </NavItem>
-                        <SignInButton fontColor={fontColor} />
+                            <SignInButton fontColor={fontColor} />
                         </>
                         {isSignedIn && (
                             <NavItem

@@ -51,7 +51,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
             )}
             <VStack
                 alignSelf={"center"}
-                alignItems={["center", "center","flex-start"]}
+                alignItems={["center", "center", "flex-start"]}
                 justify={"flex-end"}
                 position={"absolute"}
                 spacing={4}
@@ -60,9 +60,9 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 w={"full"}
                 h={"full"}
                 flexDirection={"column"}
-            px={["10%","10%","20%"]}
+                px={["5%", "8%", "13%"]}
                 pb={12}
-                textAlign={"center"}
+                textAlign={["center", "center", "start"]}
             >
                 <Heading
                     size={isMobile ? "xl" : ["3xl"]}
