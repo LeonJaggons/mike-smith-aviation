@@ -1,4 +1,5 @@
 import { createUser } from "@/firebase/auth_helpers";
+import { getAllUsers } from "@/firebase/user_helpers";
 import {
     Box,
     Heading,
@@ -20,10 +21,23 @@ import {
     Tab,
     TabPanels,
     TabPanel,
+    Table,
+    Thead,
+    Tr,
+    Th,
+    Tbody,
+    Td,
+    Tag,
+    Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { MdAdd } from "react-icons/md";
+import { BiChevronDown } from "react-icons/bi";
+import { FaPlus, FaTextHeight } from "react-icons/fa";
+import { MdAdd, MdMoreTime } from "react-icons/md";
 const allCharacters = [
     ...Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i)), // Uppercase letters
     ...Array.from({ length: 26 }, (_, i) => String.fromCharCode(97 + i)), // Lowercase letters
@@ -64,7 +78,7 @@ const allCharacters = [
 
 function index() {
     return (
-        <Box mt={"58px"}>
+        <Box mt={"54px"}>
             <VStack align={"start"} pt={4}>
                 <HStack w={"full"} justify={"space-between"}>
                     <Heading size={"lg"}>Users</Heading>
@@ -73,12 +87,90 @@ function index() {
                         <AddNewUserButton />
                     </HStack>
                 </HStack>
+                <UserTable />
             </VStack>
         </Box>
     );
-
-    co;
 }
+
+const UserTable = () => {
+    const [users, setUsers] = useState();
+    const [loading, setLoading] = useState(false);
+    const loadUsers = async () => {
+        setLoading(true);
+        const newUsers = await getAllUsers();
+        console.log(newUsers);
+        setUsers([...newUsers]);
+        setLoading(false);
+    };
+    useEffect(() => {
+        loadUsers();
+    }, []);
+    return (
+        <Table>
+            <Thead>
+                <Tr>
+                    <Th>First Name</Th>
+                    <Th>Last Name</Th>
+                    <Th>Email</Th>
+                    <Th>Admin?</Th>
+                    <Th>Actions</Th>
+                </Tr>
+            </Thead>
+            <Tbody>
+                {users?.map((u) => (
+                    <Tr>
+                        <Td>
+                            <Text fontSize={"sm"}>{u.firstName}</Text>
+                        </Td>
+                        <Td>
+                            <Text fontSize={"sm"}>{u.lastName}</Text>
+                        </Td>
+                        <Td>
+                            <Text fontSize={"sm"}>{u.email}</Text>
+                        </Td>
+                        <Td>
+                            <Tag
+                                w={"50px"}
+                                display={"flex"}
+                                justifyContent={"center"}
+                                borderRadius={0}
+                                fontWeight={500}
+                                colorScheme={
+                                    u.adminRole >= 4 ? "green" : "gray"
+                                }
+                                size={"lg"}
+                                fontSize={"12px"}
+                                variant={"solid"}
+                                textTransform={"uppercase"}
+                            >
+                                {u.adminRole >= 4 ? "Yes" : "No"}
+                            </Tag>
+                        </Td>
+                        <Td>
+                            <Menu>
+                                <MenuButton
+                                    as={Button}
+                                    rightIcon={<Icon as={BiChevronDown} />}
+                                    borderRadius={0}
+                                    fontSize={"12px"}
+                                    fontWeight={700}
+                                >
+                                    ACTIONS
+                                </MenuButton>
+                                <MenuList>
+                                    <MenuItem icon={<Icon as={MdMoreTime} />}>
+                                        Extend Document Access
+                                    </MenuItem>
+                                </MenuList>
+                            </Menu>
+                        </Td>
+                    </Tr>
+                ))}
+            </Tbody>
+        </Table>
+    );
+};
 
 const AddNewUserButton = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();

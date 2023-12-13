@@ -3,7 +3,7 @@ import React from "react";
 
 function index() {
     return (
-        <Box mt={"58px"}>
+        <Box mt={"54px"}>
             <VStack align={"start"} pt={4}>
                 <HStack w={"full"} justify={"space-between"}>
                     <Heading size={"lg"}>Appointments</Heading>

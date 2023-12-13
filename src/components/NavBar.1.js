@@ -3,6 +3,8 @@ import {
     HStack,
     Icon,
     IconButton,
+    Link,
+    Text,
     VStack,
     useDisclosure,
     useMediaQuery,
@@ -80,10 +82,28 @@ export const NavBar = () => {
             shadow={shadow}
             alignItems={"center"}
             bg={bg}
-            px={["5%", "8%", "13%"]}
+            px={router.pathname.includes("member") ? "5%" : ["5%", "8%", "10%"]}
             zIndex={999}
         >
-            {true ? <MikeSmithLogo color={fontColor} /> : <Box />}
+            <Box
+                display={"flex"}
+                flexFlow={"column nowrap"}
+                alignItems={"flex-end"}
+            >
+                <MikeSmithLogo color={fontColor} />
+                <Link
+                    mt={1}
+                    _hover={{ color: "white" }}
+                    color={fontColor}
+                    fontFamily={"heading"}
+                    // fontSize={"16.2px"}
+                    fontSize={"14px"}
+                    fontWeight={400}
+                    href={"tel:7073456526"}
+                >
+                    (707) 345-6526
+                </Link>
+            </Box>
             {(isMobile || !isLargerThan800) && (
                 <>
                     <Box flex={1} />
@@ -104,7 +124,7 @@ export const NavBar = () => {
             {!isMobile && isLargerThan800 ? (
                 <VStack align={"end"} spacing={4} flex={1}>
                     <HStack spacing={"2px"}>
-                        <SocialBar fontColor={fontColor} />
+                        {/* <SocialBar fontColor={fontColor} /> */}
                         {isSignedIn && <UserAvatar />}
                     </HStack>
                     <HStack spacing={12} flex={1}>
@@ -149,16 +169,19 @@ export const NavBar = () => {
                             <NavItem color={fontColor} href={"/gallery"}>
                                 Gallery
                             </NavItem>
+                            <NavItem color={fontColor} href={"/"}>
+                                Home
+                            </NavItem>
                             <NavItem color={fontColor} href={"/contact"}>
                                 Contact Us
                             </NavItem>
-                            <SignInButton fontColor={fontColor} />
+                            {/* <SignInButton fontColor={fontColor} /> */}
                         </>
                         {isSignedIn && (
                             <NavItem
                                 color={fontColor}
                                 subItems={[
-                                    {
+                                    user.adminRole >= 4 && {
                                         label: "Leads",
                                         href: "/member/leads",
                                     },
@@ -170,7 +193,10 @@ export const NavBar = () => {
                                         label: "Documents",
                                         href: "/member/documents",
                                     },
-                                    { label: "Users", href: "/member/users" },
+                                    user.adminRole >= 4 && {
+                                        label: "Users",
+                                        href: "/member/users",
+                                    },
                                 ]}
                             >
                                 Members

@@ -94,7 +94,7 @@ function index() {
 
     const [isExpired, setIsExpired] = useState(null);
     return isSignedIn ? (
-        <Box mt={"58px"}>
+        <Box mt={"54px"}>
             <DocumentAccessExpiration setIsExpired={setIsExpired} />
             <VStack align={"start"} pt={4}>
                 <HStack w={"full"} justify={"space-between"}>
@@ -111,7 +111,9 @@ function index() {
             </VStack>
         </Box>
     ) : (
-        <Heading mt={"80px"}>NOT SIGNED IN</Heading>
+        <Center h={"50vh"}>
+            <Heading mt={"80px"}>NOT SIGNED IN</Heading>
+        </Center>
     );
 }
 

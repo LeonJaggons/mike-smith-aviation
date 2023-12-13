@@ -4,12 +4,45 @@ import {
     collection,
     doc,
     onSnapshot,
+    orderBy,
+    query,
     updateDoc,
+    where,
 } from "firebase/firestore";
 import { firestore } from "./firebase_init";
 import store from "@/redux/store";
+import moment from "moment";
 
 const leadsCollection = collection(firestore, "leads");
+function timeSince(date) {
+    const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60,
+    };
+
+    for (const [interval, secondsInInterval] of Object.entries(intervals)) {
+        const intervalCount = Math.floor(seconds / secondsInInterval);
+
+        if (intervalCount > 1) {
+            return `${intervalCount} ${interval}s ago`;
+        } else if (intervalCount === 1) {
+            return `1 ${interval} ago`;
+        }
+    }
+
+    return "Just now";
+}
+
+// Example usage:
+const someDate = new Date("2023-11-08T12:00:00"); // Replace this with your desired date
+console.log(timeSince(someDate));
+
 export const addNewLead = async (msg) => {
     /**
      * LEAD STATUSES
@@ -25,18 +58,26 @@ export const addNewLead = async (msg) => {
         ...msg,
         createdDate: createdDate,
         leadStatus: "NEW",
+        deleted: false,
     };
     await addDoc(leadsCollection, msgData);
 };
 
 export const streamLeads = () => {
-    const unsub = onSnapshot(leadsCollection, (snap) => {
+    const leadQry = query(
+        leadsCollection,
+        where("deleted", "==", false),
+        orderBy("createdDate", "desc")
+    );
+    const unsub = onSnapshot(leadQry, (snap) => {
         const leads = snap.docs.map((leadDoc) => {
             const leadData = leadDoc.data();
             return {
                 leadID: leadDoc.id,
                 ...leadData,
-                createdDate: leadData.createdDate.toDate(),
+                createdDate: moment(leadData.createdDate.toDate()),
+
+                leadAge: timeSince(leadData.createdDate.toDate()),
             };
         });
         store.dispatch({
@@ -52,4 +93,8 @@ export const updateLeadStatus = async (leadID, newStatus) => {
     await updateDoc(doc(firestore, "leads", leadID), {
         leadStatus: newStatus,
     });
+};
+
+export const softDeleteLead = async (leadId) => {
+    await updateDoc(doc(firestore, "leads", leadId), { deleted: true });
 };

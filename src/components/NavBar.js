@@ -62,6 +62,7 @@ import {
     MdPassword,
 } from "react-icons/md";
 import { useSelector } from "react-redux";
+import Head from "next/head";
 
 function getWindowDimensions() {
     if (typeof window === "undefined" || !window) return;
@@ -134,6 +135,10 @@ export const SocialBar = ({ fontColor }) => {
     const size = "20px";
     return (
         <>
+            <Text color={"white"} size={"sm"} fontWeight={500} mr={2}>
+                Follow us
+            </Text>
+
             <IconButton
                 color={fontColor}
                 variant={"link"}
@@ -402,12 +407,14 @@ export const SignInButton = ({ fontColor }) => {
                 color={fontColor}
                 onClick={isSignedIn ? handleSignOut : onOpen}
             >
-                <HStack >
+                <HStack>
                     <Icon
                         as={isSignedIn ? MdLogout : MdLogin}
                         boxSize={"20px"}
                     />
-                    <Text color={fontColor}>Sign {isSignedIn ? "out" : "in"}</Text>
+                    <Text fontSize={13} color={fontColor}>
+                        Sign {isSignedIn ? "out" : "in"}
+                    </Text>
                 </HStack>
                 <SignInModal isOpen={isOpen} onClose={onClose} />
             </NavItem>
@@ -543,13 +550,16 @@ export const NavItem = ({
                 w={"180px"}
             >
                 <PopoverBody p={0}>
-                    {subItems?.map((si) => (
-                        <SubNavItem
-                            {...si}
-                            key={si.label}
-                            disabled={si.disabled}
-                        />
-                    ))}
+                    {subItems?.map(
+                        (si) =>
+                            si && (
+                                <SubNavItem
+                                    {...si}
+                                    key={si.label}
+                                    disabled={si.disabled}
+                                />
+                            )
+                    )}
                 </PopoverBody>
             </PopoverContent>
         </Popover>
@@ -595,7 +605,15 @@ export const MikeSmithLogo = ({ color }) => {
     const isMobile = useSelector((state) => state.app.isMobile);
     const router = useRouter();
     return (
-        <Link href="/" display={"inline-flex"} textDecoration={"none !important"}>
+        <LinkBox
+            as={Link}
+            mr={1}
+            href="/"
+            lineHeight={1}
+            w={"fit-content"}
+            display={"block"}
+            textDecoration={"none !important"}
+        >
             {/* {router.pathname !== "/" ? (
                 <Image src={"/Mike Smith.png"} w={"80px"} objectFit={"cover"} />
             ) : (
@@ -612,11 +630,38 @@ export const MikeSmithLogo = ({ color }) => {
                     />
                 </Center>
             )} */}
-            <Box color={color} transform={"scale(1.2,1)"} display={"flex"} flexFlow={"column nowrap"} textAlign={"end"}>
-                <Heading fontFamily={"logo"} fontWeight={900} mb={-2} fontSize={"26px"}>SMITH</Heading>
-                <Heading fontFamily={"logo"} fontSize={"100%"} mb={-1} fontWeight={"500"}>AVIATION</Heading>
-                <Heading fontFamily={"logo"} fontSize={"80%"} fontWeight={"normal"}>NAPA</Heading>
+            <Box
+                color={color}
+                transform={"scale(1.2,1)"}
+                display={"flex"}
+                flexFlow={"column nowrap"}
+                textAlign={"end"}
+            >
+                <Heading
+                    fontFamily={"logo"}
+                    fontWeight={900}
+                    mb={-2}
+                    fontSize={"34px"}
+                >
+                    SMITH
+                </Heading>
+                <Heading
+                    fontFamily={"logo"}
+                    fontSize={"22.8px"}
+                    mb={-1}
+                    fontWeight={"900"}
+                >
+                    AVIATION
+                </Heading>
+                {/* <Heading
+                    mt={1}
+                    fontSize={"80%"}
+                    fontFamily={"logo"}
+                    fontWeight={900}
+                >
+                    707-345-6526
+                </Heading> */}
             </Box>
-        </Link>
+        </LinkBox>
     );
 };

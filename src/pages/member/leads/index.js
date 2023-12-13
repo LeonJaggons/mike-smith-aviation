@@ -1,4 +1,8 @@
-import { streamLeads, updateLeadStatus } from "@/firebase/leads_helpers";
+import {
+    softDeleteLead,
+    streamLeads,
+    updateLeadStatus,
+} from "@/firebase/leads_helpers";
 import {
     Box,
     Button,
@@ -21,12 +25,31 @@ import {
     PopoverContent,
     PopoverBody,
     Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    AlertDialog,
+    AlertDialogOverlay,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogBody,
 } from "@chakra-ui/react";
 import { m } from "framer-motion";
 import React, { useEffect, useState } from "react";
-import { MdExpand, MdExpandMore, MdMore } from "react-icons/md";
+import { BiChevronDown } from "react-icons/bi";
+import {
+    MdDelete,
+    MdEdit,
+    MdEmail,
+    MdExpand,
+    MdExpandMore,
+    MdMore,
+    MdMoreHoriz,
+    MdPhone,
+    MdThumbDown,
+} from "react-icons/md";
 import { useSelector } from "react-redux";
-
 function index() {
     useEffect(() => {
         const unsubLeads = streamLeads();
@@ -35,9 +58,9 @@ function index() {
         };
     }, []);
     return (
-        <Box pt={"74px"}>
+        <Box mt={"54px"}>
             <VStack w={"full"} alignItems={"start"} spacing={4}>
-                <Heading mb={4}>Leads</Heading>
+                <Heading>Leads</Heading>
                 <Input placeholder={"Search leads..."} />
                 <LeadTable />
             </VStack>
@@ -48,9 +71,10 @@ const LeadTable = () => {
     const leads = useSelector((state) => state.app.leads);
     return (
         <Box overflowX={"scroll"}>
-            <Table overflowX={"scroll"}>
+            <Table overflowX={"scroll"} w={"full"}>
                 <Thead>
                     <Tr>
+                        <Th>Age</Th>
                         <Th>Name</Th>
                         <Th>Email</Th>
                         <Th>Phone</Th>
@@ -69,8 +93,18 @@ const LeadTable = () => {
     );
 };
 const LeadRow = ({ lead }) => {
+    const [deleteOpen, setDeleteOpen] = useState(false);
+    const openDelete = () => setDeleteOpen(true);
+    const closeDelete = () => setDeleteOpen(false);
+    const handleDelete = async () => {
+        await softDeleteLead(lead.leadID);
+    };
+
     return (
         <Tr>
+            <Td>
+                <Text fontSize={"sm"}>{lead.leadAge}</Text>
+            </Td>
             <Td>
                 <Text fontSize={"sm"}>{lead.name}</Text>
             </Td>
@@ -93,18 +127,39 @@ const LeadRow = ({ lead }) => {
             </Td>
 
             <Td>
-                <HStack>
-                    <VStack>
-                        <Button size={"sm"} w={"full"}>
-                            Contact
-                        </Button>
-                    </VStack>
-                    {/* <IconButton
-                        size={"sm"}
-                        variant={"link"}
-                        icon={<Icon as={MdExpandMore} />}
-                    ></IconButton> */}
-                </HStack>
+                <Menu>
+                    <MenuButton
+                        as={Button}
+                        rightIcon={<Icon as={BiChevronDown} />}
+                        borderRadius={0}
+                        fontSize={"12px"}
+                        fontWeight={700}
+                    >
+                        ACTIONS
+                    </MenuButton>
+                    <MenuList>
+                        <MenuItem
+                            as={Link}
+                            href={`tel:${lead.phone}`}
+                            icon={<Icon as={MdPhone} />}
+                        >
+                            Call
+                        </MenuItem>
+                        <MenuItem
+                            as={Link}
+                            href={`mailto:${lead.email}`}
+                            icon={<Icon as={MdEmail} />}
+                        >
+                            Email
+                        </MenuItem>
+                        <MenuItem
+                            icon={<Icon as={MdDelete} />}
+                            onClick={handleDelete}
+                        >
+                            Delete
+                        </MenuItem>
+                    </MenuList>
+                </Menu>
             </Td>
         </Tr>
     );
@@ -134,15 +189,15 @@ const LeadStatusTag = ({ leadID, currStatus }) => {
                     <Tag
                         cursor={"pointer"}
                         size={"lg"}
+                        fontSize={"12px"}
                         variant={"solid"}
                         colorScheme={statusColor[status]}
                         borderRadius={0}
                         textAlign={"center"}
                         justifyContent={"center"}
-                        fontSize={12}
-                        fontWeight={"bold"}
-                        p={2}
+                        fontWeight={700}
                         w={"full"}
+                        h={"36px"}
                     >
                         {status}
                     </Tag>

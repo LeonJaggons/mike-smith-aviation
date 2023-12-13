@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { useSelector } from "react-redux";
 
-function PageImageCover({ src, title, sub, isVideo }) {
+function PageImageCover({ src, title, sub, isVideo, isFull }) {
     const isMobile = useSelector((state) => state.app.isMobile);
     const router = useRouter();
     return (
@@ -20,7 +20,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
             w={"100vw"}
             maxW={"100vw"}
             overflowX={"hidden"}
-            h={isVideo ? "100vh" : "60vh"}
+            h={isVideo || isFull ? "100vh" : "60vh"}
             // mt={!isVideo && "88px"}
         >
             {!isVideo ? (
@@ -31,7 +31,12 @@ function PageImageCover({ src, title, sub, isVideo }) {
                     h={"100%"}
                     src={src}
                     objectFit={"cover"}
-                    filter={"grayscale(.3) brightness(30%)"}
+                    objectPosition={
+                        src === "cover.jpeg" ? "right bottom" : "unset"
+                    }
+                    filter={`grayscale(.3) brightness(${
+                        isFull ? "50%" : "40%"
+                    })`}
                 ></Image>
             ) : (
                 <Box
@@ -60,7 +65,7 @@ function PageImageCover({ src, title, sub, isVideo }) {
                 w={"full"}
                 h={"full"}
                 flexDirection={"column"}
-                px={["5%", "8%", "13%"]}
+                px={["5%", "8%", "10%"]}
                 pb={12}
                 textAlign={["center", "center", "start"]}
             >
